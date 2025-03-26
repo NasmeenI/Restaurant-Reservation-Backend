@@ -1,4 +1,10 @@
-import { IsEmail, IsEmpty, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsEmpty,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class LoginRequest {
   @IsEmail()
@@ -16,7 +22,7 @@ export class RegisterRequest extends LoginRequest {
   username: string;
 
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   phone: string;
 }
 
@@ -28,6 +34,10 @@ export class UpdateUserRequest {
   @IsString()
   @IsOptional()
   phone: string;
+
+  @IsString()
+  @IsOptional()
+  role: string;
 }
 
 export class ChangePasswordRequest {
