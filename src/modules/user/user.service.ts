@@ -28,23 +28,40 @@ export class UserService {
   }
 
   async create(req: RegisterRequest): Promise<UserDocument> {
-    const user = new this.userModel(req);
-    return user.save();
+    try {
+      const user = new this.userModel(req);
+      return await user.save();
+    } catch (error) {
+      if (error.code === 11000) {
+        // MongoDB duplicate key error code
+        throw new HttpException(
+          'Email address is already in use.',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      throw new HttpException(
+        'Internal server error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   async getByEmail(email: string): Promise<UserDocument> {
     const user = await this.userModel.findOne({ email });
     if (!user) {
-      throw new HttpException(`User with email ${email} not register yet`, HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        `User with email ${email} not register yet`,
+        HttpStatus.NOT_FOUND,
+      );
     }
     return user;
   }
 
   async generateToken(user: UserDocument): Promise<TokenResponse> {
     const payload = { email: user.email, sub: user._id };
-    const tokenRes : TokenResponse = {
+    const tokenRes: TokenResponse = {
       token: this.jwtService.sign(payload),
-    }
+    };
     return tokenRes;
   }
 }
