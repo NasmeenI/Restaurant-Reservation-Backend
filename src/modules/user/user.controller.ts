@@ -4,9 +4,12 @@ import {
   Get,
   HttpStatus,
   Post,
+  Request,
   Response,
+  UseGuards,
 } from '@nestjs/common';
-import { LoginRequest, RegisterRequest } from 'src/modules/user/user.dto';
+import { AuthGuard } from 'src/middlewares/auth.middleware';
+import { LoginRequest, RegisterRequest, UserResponse } from 'src/modules/user/user.dto';
 import { UserService } from 'src/modules/user/user.service';
 
 @Controller('user')
@@ -27,8 +30,21 @@ export class UserController {
   async register(@Body() registerRequest: RegisterRequest, @Response() res) {
     const user = await this.userService.create(registerRequest);
     const response = await this.userService.generateToken(user);
-    return res
-      .status(HttpStatus.CREATED)
-      .json(response);
+    return res.status(HttpStatus.CREATED).json(response);
+  }
+
+  @Get('/me')
+  @UseGuards(AuthGuard)
+  async getMe(@Request() req, @Response() res) {
+    const user = req['user'];
+    const userData = await this.userService.getByEmail(user.email);
+    if (!userData) {
+      return res.status(HttpStatus.UNAUTHORIZED).json({
+        message: 'User not found',
+      });
+    }
+
+    const userResponse = new UserResponse(userData);
+    return res.status(HttpStatus.OK).json(userResponse);
   }
 }

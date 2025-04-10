@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, HydratedDocument, ObjectId } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 
 @Schema({ versionKey: false })
-export class User extends Document {
+export class User extends Document<ObjectId> {
   @Prop({ required: true, unique: true })
   email: string;
 
@@ -20,20 +20,20 @@ export class User extends Document {
   phone: string;
 
   @Prop({ default: Date.now })
-  createAt: Date;
+  createdAt: Date;
 
   @Prop({ default: Date.now })
-  updateAt: Date;
+  updatedAt: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-export type UserDocument = User & Document;
+export type UserDocument = HydratedDocument<User>;
 
 UserSchema.pre('save', async function (next) {
-  this.updateAt = new Date(Date.now());
+  this.updatedAt = new Date(Date.now());
 
-  if (!this.createAt) {
-    this.createAt = new Date(Date.now());
+  if (!this.createdAt) {
+    this.createdAt = new Date(Date.now());
   }
 
   if (this.isModified('password')) {
