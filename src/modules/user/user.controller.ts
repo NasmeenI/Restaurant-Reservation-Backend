@@ -12,7 +12,7 @@ import { AuthGuard } from 'src/middlewares/auth.middleware';
 import { LoginRequest, RegisterRequest, UserResponse } from 'src/modules/user/user.dto';
 import { UserService } from 'src/modules/user/user.service';
 
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
