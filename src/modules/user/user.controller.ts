@@ -9,7 +9,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { JWTAuthGuard } from 'src/middlewares/auth.middleware';
-import { LoginRequest, RegisterRequest, UserResponse } from 'src/modules/user/user.dto';
+import { LoginRequest, RegisterRequest } from 'src/modules/user/dto/request-user.dto';
+import { UserResponse } from 'src/modules/user/dto/response-user.dto';
 import { UserService } from 'src/modules/user/user.service';
 
 @Controller('users')

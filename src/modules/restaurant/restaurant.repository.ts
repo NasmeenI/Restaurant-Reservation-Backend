@@ -4,7 +4,7 @@ import { Model, ObjectId, Types } from 'mongoose';
 import {
   Restaurant,
   RestaurantDocument,
-} from 'src/modules/restaurant/restaurant.schema';
+} from 'src/modules/restaurant/schema/restaurant.schema';
 
 @Injectable()
 export class RestaurantRepository {

@@ -3,9 +3,9 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import {
   RegisterRequest,
-  TokenResponse,
-} from 'src/modules/user/user.dto';
-import { UserDocument } from 'src/modules/user/user.schema';
+} from 'src/modules/user/dto/request-user.dto';
+import { TokenResponse } from 'src/modules/user/dto/response-user.dto';
+import { UserDocument } from 'src/modules/user/schema/user.schema';
 import { UserRepository } from 'src/modules/user/user.repository';
 
 @Injectable()

@@ -1,9 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Types } from 'mongoose';
-import {
-  CreateRestaurantRequest,
-  UpdateRestaurantRequest,
-} from 'src/modules/restaurant/restaurant.dto';
+import { CreateRestaurantRequest, UpdateRestaurantRequest } from 'src/modules/restaurant/dto/request-restaurant.dto';
 import { RestaurantRepository } from 'src/modules/restaurant/restaurant.repository';
 
 @Injectable()

@@ -13,10 +13,8 @@ import {
 import { Types } from 'mongoose';
 import { Role } from 'src/common/enum';
 import { JWTAuthGuard, RolesGuard } from 'src/middlewares/auth.middleware';
-import {
-  CreateRestaurantRequest,
-  UpdateRestaurantRequest,
-} from 'src/modules/restaurant/restaurant.dto';
+import { CreateRestaurantRequest, UpdateRestaurantRequest } from 'src/modules/restaurant/dto/request-restaurant.dto';
+
 import { RestaurantService } from 'src/modules/restaurant/restaurant.service';
 
 @Controller('restaurants')

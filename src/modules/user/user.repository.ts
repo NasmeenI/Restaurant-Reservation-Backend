@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
-import { User, UserDocument } from 'src/modules/user/user.schema';
+import { User, UserDocument } from 'src/modules/user/schema/user.schema';
 
 @Injectable()
 export class UserRepository {
