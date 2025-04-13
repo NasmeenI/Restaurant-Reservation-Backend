@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Matches } from 'class-validator';
 import { Document, HydratedDocument, Types } from 'mongoose';
+import { RestaurantType } from 'src/common/enum';
 
 @Schema({ versionKey: false })
 export class Restaurant extends Document<Types.ObjectId> {
@@ -8,7 +9,7 @@ export class Restaurant extends Document<Types.ObjectId> {
   name: string;
 
   @Prop({ required: true })
-  type: string;
+  type: RestaurantType;
 
   @Prop({ required: true })
   address: string;
