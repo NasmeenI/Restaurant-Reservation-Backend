@@ -8,7 +8,7 @@ import {
   Response,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from 'src/middlewares/auth.middleware';
+import { JWTAuthGuard } from 'src/middlewares/auth.middleware';
 import { LoginRequest, RegisterRequest, UserResponse } from 'src/modules/user/user.dto';
 import { UserService } from 'src/modules/user/user.service';
 
@@ -36,7 +36,7 @@ export class UserController {
   // TODO: Implement logout to invalidate the token in cookies
 
   @Get('/me')
-  @UseGuards(AuthGuard)
+  @UseGuards(JWTAuthGuard)
   async getMe(@Request() req, @Response() res) {
     const user = req['user'];
     const userData = await this.userService.getByEmail(user.email);
