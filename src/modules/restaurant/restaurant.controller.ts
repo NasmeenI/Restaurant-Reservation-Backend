@@ -8,8 +8,10 @@ import {
   Patch,
   Post,
   Response,
+  UseGuards,
 } from '@nestjs/common';
 import { Types } from 'mongoose';
+import { AuthGuard } from 'src/middlewares/auth.middleware';
 import {
   CreateRestaurantRequest,
   UpdateRestaurantRequest,
@@ -17,6 +19,7 @@ import {
 import { RestaurantService } from 'src/modules/restaurant/restaurant.service';
 
 @Controller('restaurants')
+@UseGuards(AuthGuard)
 export class RestaurantController {
   constructor(private readonly restaurantService: RestaurantService) {}
 
