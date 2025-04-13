@@ -13,8 +13,8 @@ export class User extends Document<ObjectId> {
   @Prop()
   username: string;
 
-  @Prop()
-  role: string;
+  @Prop({ enum: ['Admin', 'User', 'Guest'], default: 'Guest' })
+  role: 'Admin' | 'User' | 'Guest';
 
   @Prop()
   phone: string;
@@ -30,6 +30,9 @@ export const UserSchema = SchemaFactory.createForClass(User);
 export type UserDocument = HydratedDocument<User>;
 
 UserSchema.pre('save', async function (next) {
+  if (!this.role) {
+    this.role = 'Guest';
+  }
   this.updatedAt = new Date(Date.now());
 
   if (!this.createdAt) {
