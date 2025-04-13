@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HydratedDocument, ObjectId } from 'mongoose';
 import * as bcrypt from 'bcrypt';
+import { Role } from 'src/common/enum';
 
 @Schema({ versionKey: false })
 export class User extends Document<ObjectId> {
@@ -13,8 +14,8 @@ export class User extends Document<ObjectId> {
   @Prop()
   username: string;
 
-  @Prop({ enum: ['Admin', 'User', 'Guest'], default: 'Guest' })
-  role: 'Admin' | 'User' | 'Guest';
+  @Prop({ enum: Role, default: Role.GUEST })
+  role: Role;
 
   @Prop()
   phone: string;
@@ -31,7 +32,7 @@ export type UserDocument = HydratedDocument<User>;
 
 UserSchema.pre('save', async function (next) {
   if (!this.role) {
-    this.role = 'Guest';
+    this.role = Role.GUEST;
   }
   this.updatedAt = new Date(Date.now());
 

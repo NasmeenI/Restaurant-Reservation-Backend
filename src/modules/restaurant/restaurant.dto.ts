@@ -6,7 +6,8 @@ export class BaseRestaurantRequest {
   name: string;
 
   @IsString()
-  type: string;
+  @IsEnum(RestaurantType, { message: 'Invalid restaurant type' })
+  type: RestaurantType;
 
   @IsString()
   address: string;
@@ -39,7 +40,7 @@ export class CreateRestaurantRequest extends BaseRestaurantRequest {
   declare name: string;
 
   @IsNotEmpty()
-  declare type: string;
+  declare type: RestaurantType;
 
   @IsNotEmpty()
   declare address: string;
@@ -62,7 +63,7 @@ export class UpdateRestaurantRequest extends BaseRestaurantRequest {
   declare name: string;
 
   @IsOptional()
-  declare type: string;
+  declare type: RestaurantType;
 
   @IsOptional()
   declare address: string;
