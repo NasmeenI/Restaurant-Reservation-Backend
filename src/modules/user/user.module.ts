@@ -6,10 +6,10 @@ import { User, UserSchema } from 'src/modules/user/user.schema';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserRepository } from 'src/modules/user/user.repository';
+import { RepositoryModule } from 'src/common/database/repository.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -18,8 +18,9 @@ import { UserRepository } from 'src/modules/user/user.repository';
         signOptions: { expiresIn: '1h' },
       }),
     }),
+    RepositoryModule,
   ],
   controllers: [UserController],
-  providers: [UserService, UserRepository],
+  providers: [UserService],
 })
 export class UserModule {}
