@@ -5,6 +5,7 @@ import { UserModule } from 'src/modules/user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from 'src/common/database/database.module';
 import { RestaurantModule } from 'src/modules/restaurant/restaurant.module';
+import { ReservationModule } from 'src/modules/reservation/reservation.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { RestaurantModule } from 'src/modules/restaurant/restaurant.module';
     }),
     DatabaseModule,
     UserModule,
-    RestaurantModule
+    RestaurantModule,
+    ReservationModule
   ],
   controllers: [AppController],
   providers: [AppService],

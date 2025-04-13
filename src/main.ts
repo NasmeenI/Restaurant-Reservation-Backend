@@ -8,6 +8,7 @@ async function bootstrap() {
     whitelist: true, // Strip properties that don't exist in the DTO
     forbidNonWhitelisted: true, // Throw an error if there are non-whitelisted properties
     transform: true, // Automatically transform payloads to DTO types
+    transformOptions: { enableImplicitConversion: true },
   }));
   await app.listen(process.env.PORT ?? 3000);
 }

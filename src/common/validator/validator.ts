@@ -38,3 +38,42 @@ export function IsOpenBeforeClose(
     });
   };
 }
+
+export function IsStartBeforeEnd(
+  relatedProperty: string,
+  validationOptions?: ValidationOptions,
+) {
+  return function (object: any, propertyName: string) {
+    registerDecorator({
+      name: 'isStartBeforeEnd',
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      constraints: [relatedProperty],
+      validator: {
+        validate(value: any, args: ValidationArguments): boolean {
+          const [relatedPropertyName] = args.constraints;
+          const relatedValue = (args.object as any)[relatedPropertyName];
+
+          // Ensure both values are valid Date objects
+          if (!(value instanceof Date) || isNaN(value.getTime())) {
+            return false; // Invalid start date
+          }
+          if (
+            !(relatedValue instanceof Date) ||
+            isNaN(relatedValue.getTime())
+          ) {
+            return false; // Invalid end date
+          }
+
+          // Check if startTime is before endTime (strictly less than)
+          return value.getTime() < relatedValue.getTime();
+        },
+        defaultMessage(args: ValidationArguments): string {
+          const [relatedPropertyName] = args.constraints;
+          return `${args.property} must be earlier than ${relatedPropertyName}`;
+        },
+      },
+    });
+  };
+}
