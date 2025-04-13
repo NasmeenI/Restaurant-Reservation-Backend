@@ -1,5 +1,4 @@
-import { Optional } from '@nestjs/common';
-import { IsNotEmpty, IsString, Matches } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString, Matches } from 'class-validator';
 import { IsOpenBeforeClose } from 'src/common/validator/validator';
 
 export class BaseRestaurantRequest {
@@ -7,20 +6,16 @@ export class BaseRestaurantRequest {
   name: string;
 
   @IsString()
-  @IsNotEmpty()
   type: string;
 
   @IsString()
-  @IsNotEmpty()
   address: string;
 
   @IsString()
-  @IsNotEmpty()
   @Matches(/^\d+$/, { message: 'Phone number must contain only numbers' })
   phone: string;
 
   @IsString()
-  @IsNotEmpty()
   @Matches(/^([01]\d|2[0-3])\.[0-5]\d$/, {
     message: 'Open time must be in the format HH.MM',
   })
@@ -30,11 +25,13 @@ export class BaseRestaurantRequest {
   openTime: string;
 
   @IsString()
-  @IsNotEmpty()
   @Matches(/^([01]\d|2[0-3])\.[0-5]\d$/, {
     message: 'Close time must be in the format HH.MM',
   })
   closeTime: string;
+
+  @IsNumber()
+  maxCapacity: number;
 }
 
 export class CreateRestaurantRequest extends BaseRestaurantRequest {
@@ -55,24 +52,30 @@ export class CreateRestaurantRequest extends BaseRestaurantRequest {
 
   @IsNotEmpty()
   declare closeTime: string;
+
+  @IsNotEmpty()
+  declare maxCapacity: number;
 }
 
 export class UpdateRestaurantRequest extends BaseRestaurantRequest {
-  @Optional()
+  @IsOptional()
   declare name: string;
 
-  @Optional()
+  @IsOptional()
   declare type: string;
 
-  @Optional()
+  @IsOptional()
   declare address: string;
 
-  @Optional()
+  @IsOptional()
   declare phone: string;
 
-  @Optional()
+  @IsOptional()
   declare openTime: string;
 
-  @Optional()
+  @IsOptional()
   declare closeTime: string;
+
+  @IsOptional()
+  declare maxCapacity: number;
 }
