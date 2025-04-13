@@ -1,11 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Matches } from 'class-validator';
-import { Document, HydratedDocument, ObjectId } from 'mongoose';
+import { Document, HydratedDocument, Types } from 'mongoose';
 
 @Schema({ versionKey: false })
-export class Restaurant extends Document<ObjectId> {
+export class Restaurant extends Document<Types.ObjectId> {
   @Prop({ required: true, unique: true })
   name: string;
+
+  @Prop({ required: true })
+  type: string;
 
   @Prop({ required: true })
   address: string;
@@ -34,3 +37,12 @@ export class Restaurant extends Document<ObjectId> {
 
 export const RestaurantSchema = SchemaFactory.createForClass(Restaurant);
 export type RestaurantDocument = HydratedDocument<Restaurant>;
+
+RestaurantSchema.pre('save', async function (next) {
+  this.updatedAt = new Date(Date.now());
+
+  if (!this.createdAt) {
+    this.createdAt = new Date(Date.now());
+  }
+  next();
+});
