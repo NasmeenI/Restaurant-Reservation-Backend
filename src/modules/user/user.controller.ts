@@ -33,6 +33,8 @@ export class UserController {
     return res.status(HttpStatus.CREATED).json(response);
   }
 
+  // TODO: Implement logout to invalidate the token in cookies
+
   @Get('/me')
   @UseGuards(AuthGuard)
   async getMe(@Request() req, @Response() res) {
