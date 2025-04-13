@@ -11,6 +11,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Types } from 'mongoose';
+import { Role } from 'src/common/enum';
 import { JWTAuthGuard, RolesGuard } from 'src/middlewares/auth.middleware';
 import {
   CreateRestaurantRequest,
@@ -24,15 +25,14 @@ export class RestaurantController {
   constructor(private readonly restaurantService: RestaurantService) {}
 
   @Get()
-  @UseGuards(RolesGuard(['Admin', 'User']))
+  @UseGuards(RolesGuard([Role.ADMIN, Role.USER]))
   async getRestaurants(@Response() res) {
-    console.log('do');
     const response = await this.restaurantService.getRestaurants();
     return res.status(HttpStatus.OK).json(response);
   }
 
   @Get(':id')
-  @UseGuards(RolesGuard(['Admin', 'User']))
+  @UseGuards(RolesGuard([Role.ADMIN, Role.USER]))
   async getRestaurantById(@Param('id') id: string, @Response() res) {
     const objectId = new Types.ObjectId(id);
     if (!Types.ObjectId.isValid(id)) {
@@ -45,7 +45,7 @@ export class RestaurantController {
   }
 
   @Post()
-  @UseGuards(RolesGuard(['Admin']))
+  @UseGuards(RolesGuard([Role.ADMIN]))
   async createRestaurant(
     @Body() request: CreateRestaurantRequest,
     @Response() res,
@@ -55,7 +55,7 @@ export class RestaurantController {
   }
 
   @Patch(':id')
-  @UseGuards(RolesGuard(['Admin']))
+  @UseGuards(RolesGuard([Role.ADMIN]))
   async updateRestaurant(
     @Param('id') id: string,
     @Body() request: UpdateRestaurantRequest,
@@ -75,7 +75,7 @@ export class RestaurantController {
   }
 
   @Delete(':id')
-  @UseGuards(RolesGuard(['Admin']))
+  @UseGuards(RolesGuard([Role.ADMIN]))
   async deleteRestaurant(@Param('id') id: string, @Response() res) {
     const objectId = new Types.ObjectId(id);
     if (!Types.ObjectId.isValid(id)) {
