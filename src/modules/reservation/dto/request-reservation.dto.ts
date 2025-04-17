@@ -1,8 +1,9 @@
+import { PartialType } from '@nestjs/mapped-types';
 import { IsDate, IsEmpty, IsNotEmpty, IsNumber } from 'class-validator';
 import { Types } from 'mongoose';
 import { IsStartBeforeEnd } from 'src/common/validator/validator';
 
-export class CreateReservationDto {
+export class CreateReservationRequest {
   @IsEmpty()
   restaurantId: Types.ObjectId;
 
@@ -24,3 +25,5 @@ export class CreateReservationDto {
   @IsDate()
   endTime: Date;
 }
+
+export class UpdateReservationRequest extends PartialType(CreateReservationRequest) {}
