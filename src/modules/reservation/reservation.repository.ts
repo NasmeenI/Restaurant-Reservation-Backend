@@ -97,9 +97,6 @@ export class ReservationRepository {
       Array.from(reserveMap.entries()).sort(([a], [b]) => a.localeCompare(b)),
     );
 
-    console.log('Reserve Map:', reserveMap);
-    console.log('Sorted Reserve Map:', sortedReserveMap);
-
     let currentSeats = 0;
     const availableSeats: AvailableSeatsCount[] = [];
     for (const [key, value] of sortedReserveMap.entries()) {

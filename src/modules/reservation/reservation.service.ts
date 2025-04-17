@@ -56,7 +56,6 @@ export class ReservationService {
     const maxSeats = restaurant.maxSeats;
     const availableSeats = await this.reservationRepository.countAvailableSeatsSlot(restaurant);
 
-    console.log("Available Seats: ", availableSeats);
     let startTimeSlot : Date, endTimeSlot : Date;
     for (let i = 0; i < availableSeats.length - 1; i++) {
       startTimeSlot = availableSeats[i].time;
@@ -64,8 +63,6 @@ export class ReservationService {
 
       // Check if the reservation time slot is intersecting with the available time slot
       if (startTime <= endTimeSlot && startTimeSlot < endTime) {
-        console.log("Intersecting Time Slot: ", startTime, endTime, startTimeSlot, endTimeSlot);
-        console.log("Seats: ", availableSeats[i].seats);
         if (availableSeats[i].seats + seats > maxSeats) {
           return true; 
         }
