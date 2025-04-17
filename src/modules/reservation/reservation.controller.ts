@@ -22,17 +22,27 @@ export class ReservationController {
   @UseGuards(RolesGuard([Role.ADMIN, Role.USER]))
   async createReservation(
     @Param('restaurantId') restaurantId: string,
-    @Body() reservation: CreateReservationRequest,
+    @Body() reservationBody: CreateReservationRequest,
     @Request() req,
     @Response() res,
   ) {
     const userId = req.user._id;
     const restaurantObjectId = new Types.ObjectId(restaurantId);
-    const response = await this.reservationService.createReservation({
-      ...reservation,
+    const reservationReq: CreateReservationRequest = {
+      ...reservationBody,
       restaurantId: restaurantObjectId,
       userId,
-    });
+    };
+    const isExceedMaxSeats = await this.reservationService.checkIsExceedMaxSeats(
+      restaurantObjectId,
+      reservationBody.startTime,
+      reservationBody.endTime,
+      reservationBody.seats,
+    );
+    if (isExceedMaxSeats && req.user.role !== Role.ADMIN) {
+      return res.status(HttpStatus.BAD_REQUEST).json({ message: 'Exceed max seats' });
+    }
+    const response = await this.reservationService.createReservation(reservationReq);
     return res.status(HttpStatus.CREATED).json(response);
   }
 
@@ -52,10 +62,16 @@ export class ReservationController {
     if ((targetReservation.userId.toString() !== userId.toString() && req.user.role !== Role.ADMIN)) {
       return res.status(HttpStatus.FORBIDDEN).json({ message: 'You are not allowed to update this reservation' });
     }
-    const response = await this.reservationService.updateReservation(reservationId, {
-      ...reservation,
-      userId,
-    });
+    const isExceedMaxSeats = await this.reservationService.checkIsExceedMaxSeats(
+      targetReservation.restaurantId,
+      reservation.startTime || targetReservation.startTime,
+      reservation.endTime || targetReservation.endTime,
+      reservation.seats || targetReservation.seats,
+    );
+    if (isExceedMaxSeats && req.user.role !== Role.ADMIN) {
+      return res.status(HttpStatus.BAD_REQUEST).json({ message: 'Exceed max seats' });
+    }
+    const response = await this.reservationService.updateReservation(reservationId, reservation);
     return res.status(HttpStatus.OK).json(response);
   }
 
@@ -73,6 +89,11 @@ export class ReservationController {
     }
     if ((targetReservation.userId.toString() !== userId.toString() && req.user.role !== Role.ADMIN)) {
       return res.status(HttpStatus.FORBIDDEN).json({ message: 'You are not allowed to delete this reservation' });
+    }
+
+    const isOngoing = await this.reservationService.isReservationOnGoing(reservationId);
+    if (isOngoing && req.user.role !== Role.ADMIN) {
+      return res.status(HttpStatus.BAD_REQUEST).json({ message: 'Cannot delete ongoing reservation' });
     }
     const response = await this.reservationService.deleteReservation(reservationId);
     return res.status(HttpStatus.OK).json(response);

@@ -5,6 +5,8 @@ import {
   Reservation,
   ReservationDocument,
 } from 'src/modules/reservation/schema/reservation.schema';
+import { AvailableSeatsCount } from 'src/modules/restaurant/dto/response-restaurant';
+import { Restaurant } from 'src/modules/restaurant/schema/restaurant.schema';
 
 @Injectable()
 export class ReservationRepository {
@@ -70,5 +72,45 @@ export class ReservationRepository {
       throw new HttpException('Reservation not found', HttpStatus.NOT_FOUND);
     }
     return deletedReservation;
+  }
+
+  async countAvailableSeatsSlot(
+    restaurant: Restaurant,
+  ): Promise<AvailableSeatsCount[]> {
+    const reservations = await this.getAllByRestaurant(restaurant._id);
+
+    const reserveMap = new Map<string, number>();
+
+    for (const reservation of reservations) {
+      const startKey = reservation.startTime.toISOString();
+      const endKey = reservation.endTime.toISOString();
+
+      reserveMap.set(
+        startKey,
+        (reserveMap.get(startKey) ?? 0) + reservation.seats,
+      );
+      reserveMap.set(endKey, (reserveMap.get(endKey) ?? 0) - reservation.seats);
+    }
+
+    // Sort the map by timestamp (ISO string)
+    const sortedReserveMap = new Map(
+      Array.from(reserveMap.entries()).sort(([a], [b]) => a.localeCompare(b)),
+    );
+
+    console.log('Reserve Map:', reserveMap);
+    console.log('Sorted Reserve Map:', sortedReserveMap);
+
+    let currentSeats = 0;
+    const availableSeats: AvailableSeatsCount[] = [];
+    for (const [key, value] of sortedReserveMap.entries()) {
+      currentSeats += value;
+      const time = new Date(key);
+      availableSeats.push({
+        time: time,
+        seats: currentSeats,
+      });
+    }
+
+    return availableSeats;
   }
 }
