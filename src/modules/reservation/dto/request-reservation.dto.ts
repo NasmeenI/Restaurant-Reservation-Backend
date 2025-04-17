@@ -1,7 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { IsDate, IsEmpty, IsNotEmpty, IsNumber } from 'class-validator';
 import { Types } from 'mongoose';
-import { IsStartBeforeEnd } from 'src/common/validator/validator';
+import { IsFutureDate, IsStartBeforeEnd } from 'src/common/validator/validator';
 
 export class CreateReservationRequest {
   @IsEmpty()
@@ -19,10 +19,12 @@ export class CreateReservationRequest {
   @IsStartBeforeEnd('endTime', {
     message: 'Start time must be before end time',
   })
+  @IsFutureDate()
   startTime: Date;
 
   @IsNotEmpty()
   @IsDate()
+  @IsFutureDate()
   endTime: Date;
 }
 

@@ -77,3 +77,23 @@ export function IsStartBeforeEnd(
     });
   };
 }
+
+export function IsFutureDate(validationOptions?: ValidationOptions) {
+  return function (object: any, propertyName: string) {
+    registerDecorator({
+      name: 'isFutureDate',
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      validator: {
+        validate(value: any): boolean {
+          if (!(value instanceof Date)) return false; // Not a valid date
+          return value.getTime() > Date.now(); // Check if the date is in the future
+        },
+        defaultMessage(): string {
+          return `${propertyName} must be in the future`;
+        },
+      },
+    });
+  };
+}
