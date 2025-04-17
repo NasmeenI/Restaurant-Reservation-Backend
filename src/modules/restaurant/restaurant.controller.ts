@@ -38,7 +38,7 @@ export class RestaurantController {
         message: 'Invalid id',
       });
     }
-    const response = await this.restaurantService.getRestaurantById(objectId);
+    const response = await this.restaurantService.getIncludedReservations(objectId);
     return res.status(HttpStatus.OK).json(response);
   }
 
