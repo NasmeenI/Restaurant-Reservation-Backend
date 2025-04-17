@@ -1,5 +1,6 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import helmet from 'helmet';
 import { SanitizePipe } from 'src/common/pipe/sanitize.pipe';
 import { AppModule } from 'src/modules/app/app.module';
 
@@ -14,6 +15,7 @@ async function bootstrap() {
       transformOptions: { enableImplicitConversion: true },
     }),
   );
+  app.use(helmet());
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
