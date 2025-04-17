@@ -10,7 +10,7 @@ export class Reservation extends Document<Types.ObjectId> {
   userId: Types.ObjectId;
 
   @Prop({ required: true })
-  capacity: number;
+  seats: number;
 
   @Prop({ required: true })
   startTime: Date;

@@ -30,7 +30,7 @@ export class Restaurant extends Document<Types.ObjectId> {
   closeTime: string;
 
   @Prop({ required: true })
-  maxCapacity: number;
+  maxSeats: number;
 
   @Prop({ default: Date.now })
   createdAt: Date;
