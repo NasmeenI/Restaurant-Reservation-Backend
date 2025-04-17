@@ -12,7 +12,7 @@ export class CreateReservationRequest {
 
   @IsNotEmpty()
   @IsNumber()
-  capacity: number;
+  seats: number;
 
   @IsNotEmpty()
   @IsDate()

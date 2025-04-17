@@ -41,7 +41,7 @@ export class CreateRestaurantRequest {
 
   @IsNumber()
   @IsNotEmpty()
-  maxCapacity: number;
+  maxSeats: number;
 }
 
 export class UpdateRestaurantRequest extends PartialType(
