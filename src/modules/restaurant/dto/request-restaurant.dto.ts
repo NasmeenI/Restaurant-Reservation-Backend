@@ -1,4 +1,5 @@
 import { PartialType } from "@nestjs/mapped-types";
+import { Transform } from "class-transformer";
 import { IsEnum, IsNotEmpty, IsNumber, IsString, Matches } from "class-validator";
 import { RestaurantType } from "src/common/enum";
 import { IsOpenBeforeClose } from "src/common/validator/validator";
@@ -6,6 +7,7 @@ import { IsOpenBeforeClose } from "src/common/validator/validator";
 export class CreateRestaurantRequest {
   @IsString()
   @IsNotEmpty()
+  @Transform(({ value }) => value.trim())
   name: string;
 
   @IsString()
@@ -15,6 +17,7 @@ export class CreateRestaurantRequest {
 
   @IsString()
   @IsNotEmpty()
+  @Transform(({ value }) => value.trim())
   address: string;
 
   @IsString()
