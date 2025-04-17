@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
 import { SanitizePipe } from 'src/common/pipe/sanitize.pipe';
 import { AppModule } from 'src/modules/app/app.module';
+import hpp from 'hpp';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,6 +17,7 @@ async function bootstrap() {
     }),
   );
   app.use(helmet());
+  app.use(hpp());
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
