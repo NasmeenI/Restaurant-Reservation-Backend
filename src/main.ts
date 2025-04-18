@@ -20,6 +20,13 @@ async function bootstrap() {
   );
   app.use(helmet());
   app.use(hpp());
+  app.enableCors({
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], 
+    allowedHeaders: ['Content-Type', 'Authorization'], 
+    credentials: true, // Allow cookies and auth headers (e.g., for JWT)
+    maxAge: 3600, // Cache preflight requests for 1 hour (in seconds)
+  });
 
   // Swagger setup
   const config = new DocumentBuilder()
