@@ -16,7 +16,7 @@ import {
   OTPRequest,
   RegisterRequest,
 } from 'src/modules/user/dto/request-user.dto';
-import { UserResponse } from 'src/modules/user/dto/response-user.dto';
+import { TokenResponse, UserResponse } from 'src/modules/user/dto/response-user.dto';
 import { UserService } from 'src/modules/user/user.service';
 
 @ApiTags('users')
@@ -26,6 +26,11 @@ export class UserController {
 
   @Post('/login')
   @ApiOperation({ summary: 'Login user' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'User logged in successfully, token returned',
+    type: TokenResponse,
+  })
   async login(@Body() loginRequest: LoginRequest, @Response() res) {
     const user = await this.userService.validateUser(
       loginRequest.email,
@@ -36,7 +41,12 @@ export class UserController {
   }
 
   @Post('/register')
-  @ApiOperation({ summary: 'Register user' })
+  @ApiOperation({ summary: 'Register user and send verify OTP' })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'User registered successfully, token returned',
+    type: TokenResponse,
+  })
   async register(@Body() registerRequest: RegisterRequest, @Response() res) {
     const user = await this.userService.create(registerRequest);
     const response = await this.userService.generateToken(user);
