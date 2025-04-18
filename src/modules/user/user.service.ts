@@ -20,13 +20,17 @@ export class UserService {
   ) {}
 
   async validateUser(email: string, password: string): Promise<UserDocument> {
-    const user = await this.getByEmail(email);
+    try {
+      const user = await this.getByEmail(email);
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid) {
+        throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+      }
+      return user;
+    } catch (error) {
       throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
     }
-    return user;
   }
 
   async create(req: RegisterRequest): Promise<UserDocument> {
