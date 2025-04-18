@@ -19,12 +19,13 @@ import {
   UpdateReservationRequest,
 } from 'src/modules/reservation/dto/request-reservation.dto';
 import { Types } from 'mongoose';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Reservation } from 'src/modules/reservation/schema/reservation.schema';
 
 @ApiTags('reservations')
 @Controller('reservation')
 @UseGuards(JWTAuthGuard)
+@ApiBearerAuth()
 export class ReservationController {
   constructor(private readonly reservationService: ReservationService) {}
 

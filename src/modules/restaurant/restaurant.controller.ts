@@ -10,7 +10,7 @@ import {
   Response,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Types } from 'mongoose';
 import { Role } from 'src/common/enum';
 import { JWTAuthGuard, RolesGuard } from 'src/middlewares/auth.middleware';
@@ -22,6 +22,7 @@ import { Restaurant } from 'src/modules/restaurant/schema/restaurant.schema';
 @ApiTags('restaurants')
 @Controller('restaurants')
 @UseGuards(JWTAuthGuard)
+@ApiBearerAuth()
 export class RestaurantController {
   constructor(private readonly restaurantService: RestaurantService) {}
 

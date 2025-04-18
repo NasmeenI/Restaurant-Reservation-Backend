@@ -9,7 +9,7 @@ import {
   Response,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JWTAuthGuard } from 'src/middlewares/auth.middleware';
 import {
   LoginRequest,
@@ -62,6 +62,7 @@ export class UserController {
 
   @Post('/logout')
   @UseGuards(JWTAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Logout user' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -84,6 +85,7 @@ export class UserController {
 
   @Get('/me')
   @UseGuards(JWTAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get user data', description: 'Requires authentication' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -105,6 +107,7 @@ export class UserController {
 
   @Patch('/verify')
   @UseGuards(JWTAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Verify user with OTP', description: 'Requires authentication' })
   async verifyUser(
     @Body() otpRequest: OTPRequest,
@@ -126,6 +129,7 @@ export class UserController {
 
   @Patch('resent-otp')
   @UseGuards(JWTAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Resend OTP to user', description: 'Requires authentication' })
   async resentOtp(@Request() req, @Response() res) {
     const user = req['user'];
