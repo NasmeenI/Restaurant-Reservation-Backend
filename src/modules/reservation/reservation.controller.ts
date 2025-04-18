@@ -4,7 +4,9 @@ import { JWTAuthGuard, RolesGuard } from 'src/middlewares/auth.middleware';
 import { Role } from 'src/common/enum';
 import { CreateReservationRequest, UpdateReservationRequest } from 'src/modules/reservation/dto/request-reservation.dto';
 import { Types } from 'mongoose';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('reservations')
 @Controller('reservation')
 @UseGuards(JWTAuthGuard)
 export class ReservationController {

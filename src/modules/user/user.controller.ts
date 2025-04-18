@@ -9,6 +9,7 @@ import {
   Response,
   UseGuards,
 } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JWTAuthGuard } from 'src/middlewares/auth.middleware';
 import {
   LoginRequest,
@@ -18,6 +19,7 @@ import {
 import { UserResponse } from 'src/modules/user/dto/response-user.dto';
 import { UserService } from 'src/modules/user/user.service';
 
+@ApiTags('users')
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -43,6 +45,7 @@ export class UserController {
 
   @Get('/me')
   @UseGuards(JWTAuthGuard)
+  @ApiOperation({ summary: 'Get logged in user data' })
   async getMe(@Request() req, @Response() res) {
     const user = req['user'];
     const userData = await this.userService.getByEmail(user.email);
