@@ -10,12 +10,13 @@ import {
   Response,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Types } from 'mongoose';
 import { Role } from 'src/common/enum';
 import { JWTAuthGuard, RolesGuard } from 'src/middlewares/auth.middleware';
 import { CreateRestaurantRequest, UpdateRestaurantRequest } from 'src/modules/restaurant/dto/request-restaurant.dto';
 import { RestaurantService } from 'src/modules/restaurant/restaurant.service';
+import { Restaurant } from 'src/modules/restaurant/schema/restaurant.schema';
 
 @ApiTags('restaurants')
 @Controller('restaurants')
@@ -25,6 +26,12 @@ export class RestaurantController {
 
   @Get()
   @UseGuards(RolesGuard([Role.ADMIN, Role.USER]))
+  @ApiOperation({ summary: 'Get all restaurants' , description: 'Allows only admin and user roles to access this endpoint.'})
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'List of restaurants',
+    type: [Restaurant],
+  })
   async getRestaurants(@Response() res) {
     const response = await this.restaurantService.getRestaurants();
     return res.status(HttpStatus.OK).json(response);
@@ -32,6 +39,12 @@ export class RestaurantController {
 
   @Get(':id')
   @UseGuards(RolesGuard([Role.ADMIN, Role.USER]))
+  @ApiOperation({ summary: 'Get restaurant by ID', description: 'Allows only admin and user roles to access this endpoint.'})
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Restaurant details',
+    type: Restaurant,
+  })
   async getRestaurantById(@Param('id') id: string, @Response() res) {
     const objectId = new Types.ObjectId(id);
     if (!Types.ObjectId.isValid(id)) {
@@ -45,6 +58,12 @@ export class RestaurantController {
 
   @Post()
   @UseGuards(RolesGuard([Role.ADMIN]))
+  @ApiOperation({ summary: 'Create a new restaurant', description: 'Allows only admin role to access this endpoint.'})
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'Restaurant created successfully',
+    type: Restaurant,
+  })
   async createRestaurant(
     @Body() request: CreateRestaurantRequest,
     @Response() res,
@@ -55,6 +74,12 @@ export class RestaurantController {
 
   @Patch(':id')
   @UseGuards(RolesGuard([Role.ADMIN]))
+  @ApiOperation({ summary: 'Update restaurant by ID', description: 'Allows only admin role to access this endpoint.'})
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Restaurant updated successfully',
+    type: Restaurant,
+  })
   async updateRestaurant(
     @Param('id') id: string,
     @Body() request: UpdateRestaurantRequest,
@@ -75,6 +100,11 @@ export class RestaurantController {
 
   @Delete(':id')
   @UseGuards(RolesGuard([Role.ADMIN]))
+  @ApiOperation({ summary: 'Delete restaurant by ID', description: 'Allows only admin role to access this endpoint.'})
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Restaurant deleted successfully',
+  })
   async deleteRestaurant(@Param('id') id: string, @Response() res) {
     const objectId = new Types.ObjectId(id);
     if (!Types.ObjectId.isValid(id)) {
