@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, HydratedDocument, ObjectId } from 'mongoose';
+import { Document, HydratedDocument, Types } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { Role } from 'src/common/enum';
 
 @Schema({ versionKey: false })
-export class User extends Document<ObjectId> {
+export class User extends Document<Types.ObjectId> {
   @Prop({ required: true, unique: true })
   email: string;
 

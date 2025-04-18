@@ -37,3 +37,10 @@ export class ChangePasswordRequest {
   @IsNotEmpty()
   newPassword: string;
 }
+
+export class OTPRequest {
+  @IsString()
+  @IsNotEmpty()
+  @Matches(/^\d{6}$/, { message: 'OTP must be 6 digits' })
+  otp: string;
+}

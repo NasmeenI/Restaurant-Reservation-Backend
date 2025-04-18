@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpStatus,
+  Patch,
   Post,
   Request,
   Response,
@@ -11,6 +12,7 @@ import {
 import { JWTAuthGuard } from 'src/middlewares/auth.middleware';
 import {
   LoginRequest,
+  OTPRequest,
   RegisterRequest,
 } from 'src/modules/user/dto/request-user.dto';
 import { UserResponse } from 'src/modules/user/dto/response-user.dto';
@@ -52,5 +54,42 @@ export class UserController {
 
     const userResponse = new UserResponse(userData);
     return res.status(HttpStatus.OK).json(userResponse);
+  }
+
+  @Patch('/verify')
+  @UseGuards(JWTAuthGuard)
+  async verifyUser(
+    @Body() otpRequest: OTPRequest,
+    @Request() req,
+    @Response() res,
+  ) {
+    const user = req['user'];
+    const userData = await this.userService.getByEmail(user.email);
+    if (!userData) {
+      return res.status(HttpStatus.UNAUTHORIZED).json({
+        message: 'User not found',
+      });
+    }
+
+    const updatedUser = await this.userService.verifyUser(otpRequest, userData);
+    const userResponse = new UserResponse(updatedUser);
+    return res.status(HttpStatus.OK).json(userResponse);
+  }
+
+  @Patch('resent-otp')
+  @UseGuards(JWTAuthGuard)
+  async resentOtp(@Request() req, @Response() res) {
+    const user = req['user'];
+    const userData = await this.userService.getByEmail(user.email);
+    if (!userData) {
+      return res.status(HttpStatus.UNAUTHORIZED).json({
+        message: 'User not found',
+      });
+    }
+
+    await this.userService.resentOtp(userData);
+    return res.status(HttpStatus.OK).json({
+      message: 'OTP resent successfully',
+    });
   }
 }
