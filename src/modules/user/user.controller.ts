@@ -9,7 +9,7 @@ import {
   Response,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JWTAuthGuard } from 'src/middlewares/auth.middleware';
 import {
   LoginRequest,
@@ -25,6 +25,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('/login')
+  @ApiOperation({ summary: 'Login user' })
   async login(@Body() loginRequest: LoginRequest, @Response() res) {
     const user = await this.userService.validateUser(
       loginRequest.email,
@@ -35,6 +36,7 @@ export class UserController {
   }
 
   @Post('/register')
+  @ApiOperation({ summary: 'Register user' })
   async register(@Body() registerRequest: RegisterRequest, @Response() res) {
     const user = await this.userService.create(registerRequest);
     const response = await this.userService.generateToken(user);
@@ -45,7 +47,12 @@ export class UserController {
 
   @Get('/me')
   @UseGuards(JWTAuthGuard)
-  @ApiOperation({ summary: 'Get logged in user data' })
+  @ApiOperation({ summary: 'Get user data' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'User data retrieved successfully',
+    type: UserResponse,
+  })
   async getMe(@Request() req, @Response() res) {
     const user = req['user'];
     const userData = await this.userService.getByEmail(user.email);
@@ -61,6 +68,7 @@ export class UserController {
 
   @Patch('/verify')
   @UseGuards(JWTAuthGuard)
+  @ApiOperation({ summary: 'Verify user with OTP' })
   async verifyUser(
     @Body() otpRequest: OTPRequest,
     @Request() req,
@@ -81,6 +89,7 @@ export class UserController {
 
   @Patch('resent-otp')
   @UseGuards(JWTAuthGuard)
+  @ApiOperation({ summary: 'Resend OTP to user' })
   async resentOtp(@Request() req, @Response() res) {
     const user = req['user'];
     const userData = await this.userService.getByEmail(user.email);
