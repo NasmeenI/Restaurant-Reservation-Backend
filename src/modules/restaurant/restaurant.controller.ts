@@ -15,6 +15,7 @@ import { Types } from 'mongoose';
 import { Role } from 'src/common/enum';
 import { JWTAuthGuard, RolesGuard } from 'src/middlewares/auth.middleware';
 import { CreateRestaurantRequest, UpdateRestaurantRequest } from 'src/modules/restaurant/dto/request-restaurant.dto';
+import { ResponseRestaurantWithReservation } from 'src/modules/restaurant/dto/response-restaurant';
 import { RestaurantService } from 'src/modules/restaurant/restaurant.service';
 import { Restaurant } from 'src/modules/restaurant/schema/restaurant.schema';
 
@@ -43,7 +44,7 @@ export class RestaurantController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Restaurant details',
-    type: Restaurant,
+    type: ResponseRestaurantWithReservation,
   })
   async getRestaurantById(@Param('id') id: string, @Response() res) {
     const objectId = new Types.ObjectId(id);
