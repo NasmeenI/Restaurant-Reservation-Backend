@@ -42,7 +42,8 @@
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
-    "sanitize-html": "^2.16.0"
+    "sanitize-html": "^2.16.0",
+    "twilio": "^5.5.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
