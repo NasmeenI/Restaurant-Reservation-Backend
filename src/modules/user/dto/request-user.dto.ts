@@ -19,9 +19,14 @@ export class LoginRequest {
 
   @IsString()
   @IsNotEmpty()
-  @Matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, {
-    message:
-      'Password must be at least 8 characters long and contain at least one letter and one number',
+  // @Matches(/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, {
+  //   message:
+  //     'Password must be at least 8 characters long',
+  // })
+
+  // password must be at least 8 chars, can contain letters, numbers, and special chars
+  @Matches(/.{8,}/, {
+    message: 'Password must be at least 8 characters long',
   })
   @ApiProperty({
     description: 'Password of the user account',
