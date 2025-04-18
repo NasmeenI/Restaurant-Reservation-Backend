@@ -3,7 +3,7 @@ import { UserService } from 'src/modules/user/user.service';
 import { UserController } from 'src/modules/user/user.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { RepositoryModule } from 'src/common/database/repository.module';
+import { RepositoryModule } from 'src/database/repository.module';
 
 @Module({
   imports: [
