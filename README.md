@@ -7,6 +7,10 @@
 
 Restaurant Reservation is a NestJS-based backend application designed for managing restaurant bookings. Built for a Software Development Practice class's project.
 
+## Contributors
+
+There two contributors to this project: [ThanaphomH (me)](https://github.com/ThanaphomH) and [NasmeenI](https://github.com/NasmeenI)
+
 ## Prerequisites
 
 - Node.js (v16 or higher)
