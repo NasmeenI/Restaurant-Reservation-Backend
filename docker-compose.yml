@@ -1,0 +1,11 @@
+services:
+  backend-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend_api
+    restart: always
+    env_file:
+      - ./.env
+    ports:
+      - "8081:8081"
