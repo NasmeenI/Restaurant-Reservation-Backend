@@ -6,7 +6,7 @@ import {
   UpdateRestaurantRequest,
 } from 'src/modules/restaurant/dto/request-restaurant.dto';
 import {
-  AvailableSeatsCount,
+  ReservedSeatsCount,
   ResponseRestaurantWithReservation,
 } from 'src/modules/restaurant/dto/response-restaurant';
 import { RestaurantRepository } from 'src/modules/restaurant/restaurant.repository';
@@ -53,7 +53,7 @@ export class RestaurantService {
 
     const response: ResponseRestaurantWithReservation = {
       restaurant: thisRestaurant,
-      availableSeats: availableSeats,
+      reservedSeats: availableSeats,
     };
     return response;
   }

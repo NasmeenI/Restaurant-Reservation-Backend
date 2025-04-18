@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Restaurant } from "src/modules/restaurant/schema/restaurant.schema";
 
-export class AvailableSeatsCount {
+export class ReservedSeatsCount {
     @ApiProperty({
         description: 'Start time of the reservation',
         example: '2023-10-01T12:00:00Z',
@@ -24,8 +24,8 @@ export class ResponseRestaurantWithReservation {
     restaurant: Restaurant;
 
     @ApiProperty({
-        description: 'List of available seats',
-        type: [AvailableSeatsCount],
+        description: 'List of reserved seats of the restaurant',
+        type: [ReservedSeatsCount],
     })
-    availableSeats: AvailableSeatsCount[];
+    reservedSeats: ReservedSeatsCount[];
 }

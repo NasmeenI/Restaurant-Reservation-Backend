@@ -5,7 +5,7 @@ import {
   Reservation,
   ReservationDocument,
 } from 'src/modules/reservation/schema/reservation.schema';
-import { AvailableSeatsCount } from 'src/modules/restaurant/dto/response-restaurant';
+import { ReservedSeatsCount } from 'src/modules/restaurant/dto/response-restaurant';
 import { Restaurant } from 'src/modules/restaurant/schema/restaurant.schema';
 
 @Injectable()
@@ -76,7 +76,7 @@ export class ReservationRepository {
 
   async countAvailableSeatsSlot(
     restaurant: Restaurant,
-  ): Promise<AvailableSeatsCount[]> {
+  ): Promise<ReservedSeatsCount[]> {
     const reservations = await this.getAllByRestaurant(restaurant._id);
 
     const reserveMap = new Map<string, number>();
@@ -98,7 +98,7 @@ export class ReservationRepository {
     );
 
     let currentSeats = 0;
-    const availableSeats: AvailableSeatsCount[] = [];
+    const availableSeats: ReservedSeatsCount[] = [];
     for (const [key, value] of sortedReserveMap.entries()) {
       currentSeats += value;
       const time = new Date(key);
