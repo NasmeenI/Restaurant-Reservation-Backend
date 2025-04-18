@@ -5,6 +5,7 @@ import { SanitizePipe } from 'src/common/pipe/sanitize.pipe';
 import { AppModule } from 'src/modules/app/app.module';
 import hpp from 'hpp';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { applyPartialTypeMetadata } from 'src/common/utils/swagger.utils';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -29,7 +30,9 @@ async function bootstrap() {
     .build();
 
   // Create Swagger document
-  const document = SwaggerModule.createDocument(app, config);
+  let document = SwaggerModule.createDocument(app, config);
+
+  document = applyPartialTypeMetadata(app, document);
 
   // Set up Swagger UI at a specific endpoint (e.g., /api-docs)
   SwaggerModule.setup('api-docs', app, document, {
