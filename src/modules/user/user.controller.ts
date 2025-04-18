@@ -16,7 +16,10 @@ import {
   OTPRequest,
   RegisterRequest,
 } from 'src/modules/user/dto/request-user.dto';
-import { TokenResponse, UserResponse } from 'src/modules/user/dto/response-user.dto';
+import {
+  TokenResponse,
+  UserResponse,
+} from 'src/modules/user/dto/response-user.dto';
 import { UserService } from 'src/modules/user/user.service';
 
 @ApiTags('users')
@@ -57,7 +60,7 @@ export class UserController {
 
   @Get('/me')
   @UseGuards(JWTAuthGuard)
-  @ApiOperation({ summary: 'Get user data' })
+  @ApiOperation({ summary: 'Get user data', description: 'Requires authentication' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User data retrieved successfully',
@@ -78,7 +81,7 @@ export class UserController {
 
   @Patch('/verify')
   @UseGuards(JWTAuthGuard)
-  @ApiOperation({ summary: 'Verify user with OTP' })
+  @ApiOperation({ summary: 'Verify user with OTP', description: 'Requires authentication' })
   async verifyUser(
     @Body() otpRequest: OTPRequest,
     @Request() req,
@@ -99,7 +102,7 @@ export class UserController {
 
   @Patch('resent-otp')
   @UseGuards(JWTAuthGuard)
-  @ApiOperation({ summary: 'Resend OTP to user' })
+  @ApiOperation({ summary: 'Resend OTP to user', description: 'Requires authentication' })
   async resentOtp(@Request() req, @Response() res) {
     const user = req['user'];
     const userData = await this.userService.getByEmail(user.email);
