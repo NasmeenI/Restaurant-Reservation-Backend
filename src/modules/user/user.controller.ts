@@ -40,6 +40,8 @@ export class UserController {
       loginRequest.password,
     );
     const response = await this.userService.generateToken(user);
+
+    this.userService.setCookie(res, "token" , response.token, {});
     return res.status(HttpStatus.OK).json(response);
   }
 
@@ -53,10 +55,32 @@ export class UserController {
   async register(@Body() registerRequest: RegisterRequest, @Response() res) {
     const user = await this.userService.create(registerRequest);
     const response = await this.userService.generateToken(user);
+
+    this.userService.setCookie(res, "token" , response.token, {});
     return res.status(HttpStatus.CREATED).json(response);
   }
 
-  // TODO: Implement logout to invalidate the token in cookies
+  @Post('/logout')
+  @UseGuards(JWTAuthGuard)
+  @ApiOperation({ summary: 'Logout user' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'User logged out successfully',
+  })
+  async logout(@Request() req, @Response() res) {
+    const user = req['user'];
+    const userData = await this.userService.getByEmail(user.email);
+    if (!userData) {
+      return res.status(HttpStatus.UNAUTHORIZED).json({
+        message: 'User not found',
+      });
+    }
+
+    this.userService.removeCookie(res, "token" , {});
+    return res.status(HttpStatus.OK).json({
+      message: 'User logged out successfully',
+    });
+  }
 
   @Get('/me')
   @UseGuards(JWTAuthGuard)

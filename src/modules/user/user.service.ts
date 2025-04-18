@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
+import { CookieOptions, Response } from 'express';
 import { Role } from 'src/common/enum';
 import { OtpVerificationRepository } from 'src/modules/otp/otp.repository';
 import {
@@ -87,5 +88,35 @@ export class UserService {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  async setCookie(
+    res: Response,
+    name: string,
+    value: string,
+    options: CookieOptions = {},
+  ): Promise<void> {
+    const defaultOptions: CookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      path: '/',
+      ...options,
+    };
+
+    res.cookie(name, value, defaultOptions);
+  }
+
+  async removeCookie(
+    res: Response,
+    name: string,
+    options: CookieOptions = {},
+  ): Promise<void> {
+    const defaultOptions: CookieOptions = {
+      path: '/',
+      ...options,
+    };
+
+    res.clearCookie(name, defaultOptions);
   }
 }
