@@ -4,6 +4,13 @@ import { Document, HydratedDocument, Types } from 'mongoose';
 
 @Schema({ versionKey: false })
 export class Reservation extends Document<Types.ObjectId> {
+  @ApiProperty({
+    description: 'ID of the reservation',
+    example: '60d5f484f1a2c8b8f8e4b8c8',
+    type: String,
+  })
+  declare _id: Types.ObjectId;
+
   @Prop({ required: true })
   @ApiProperty({
     description: 'ID of the restaurant',

@@ -6,6 +6,13 @@ import { RestaurantType } from 'src/common/enum';
 
 @Schema({ versionKey: false })
 export class Restaurant extends Document<Types.ObjectId> {
+  @ApiProperty({
+    description: 'ID of the restaurant',
+    example: '60d5f484f1a2c8b8f8e4b8c8',
+    type: String,
+  })
+  declare _id: Types.ObjectId;
+
   @Prop({ required: true, unique: true })
   @ApiProperty({
     description: 'Name of the restaurant',
