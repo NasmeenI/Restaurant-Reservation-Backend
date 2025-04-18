@@ -24,7 +24,7 @@ export class RegisterRequest extends LoginRequest {
 
   @IsNotEmpty()
   @IsString()
-  @Matches(/^\d+$/, { message: 'Phone number must contain only numbers' })
+  @Matches(/^\+?\d{10,15}$/, { message: "Phone number must be numbers with 10-15 characters" })
   phone: string;
 }
 

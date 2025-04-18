@@ -15,6 +15,9 @@ export class Restaurant extends Document<Types.ObjectId> {
   address: string;
 
   @Prop({ required: true })
+  @Matches(/^\+?\d{10,15}$/, {
+    message: 'Phone number must be numbers with 10-15 characters',
+  })
   phone: string;
 
   @Prop({ required: true })

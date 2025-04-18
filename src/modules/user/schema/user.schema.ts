@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HydratedDocument, Types } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { Role } from 'src/common/enum';
+import { Matches } from 'class-validator';
 
 @Schema({ versionKey: false })
 export class User extends Document<Types.ObjectId> {
@@ -18,6 +19,7 @@ export class User extends Document<Types.ObjectId> {
   role: Role;
 
   @Prop()
+  @Matches(/^\+?\d{10,15}$/, { message: "Phone number must be numbers with 10-15 characters" })
   phone: string;
 
   @Prop({ default: Date.now })
