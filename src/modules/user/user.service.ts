@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
-import { Types } from 'mongoose';
+import * as bcrypt from 'bcryptjs';
 import { Role } from 'src/common/enum';
 import { OtpVerificationRepository } from 'src/modules/otp/otp.repository';
 import {
