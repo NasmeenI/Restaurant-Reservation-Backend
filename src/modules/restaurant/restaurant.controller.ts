@@ -21,13 +21,10 @@ import { Restaurant } from 'src/modules/restaurant/schema/restaurant.schema';
 
 @ApiTags('restaurants')
 @Controller('restaurants')
-@UseGuards(JWTAuthGuard)
-@ApiBearerAuth()
 export class RestaurantController {
   constructor(private readonly restaurantService: RestaurantService) {}
 
   @Get()
-  @UseGuards(RolesGuard([Role.ADMIN, Role.USER]))
   @ApiOperation({ summary: 'Get all restaurants' , description: 'Allows only admin and user roles to access this endpoint.'})
   @ApiResponse({
     status: HttpStatus.OK,
@@ -40,7 +37,6 @@ export class RestaurantController {
   }
 
   @Get(':id')
-  @UseGuards(RolesGuard([Role.ADMIN, Role.USER]))
   @ApiOperation({ summary: 'Get restaurant by ID', description: 'Allows only admin and user roles to access this endpoint.'})
   @ApiResponse({
     status: HttpStatus.OK,
@@ -59,6 +55,8 @@ export class RestaurantController {
   }
 
   @Post()
+  @UseGuards(JWTAuthGuard)
+  @ApiBearerAuth()
   @UseGuards(RolesGuard([Role.ADMIN]))
   @ApiOperation({ summary: 'Create a new restaurant', description: 'Allows only admin role to access this endpoint.'})
   @ApiResponse({
@@ -75,6 +73,8 @@ export class RestaurantController {
   }
 
   @Patch(':id')
+  @UseGuards(JWTAuthGuard)
+  @ApiBearerAuth()
   @UseGuards(RolesGuard([Role.ADMIN]))
   @ApiOperation({ summary: 'Update restaurant by ID', description: 'Allows only admin role to access this endpoint.'})
   @ApiResponse({
@@ -101,6 +101,8 @@ export class RestaurantController {
   }
 
   @Delete(':id')
+  @UseGuards(JWTAuthGuard)
+  @ApiBearerAuth()
   @UseGuards(RolesGuard([Role.ADMIN]))
   @ApiOperation({ summary: 'Delete restaurant by ID', description: 'Allows only admin role to access this endpoint.'})
   @ApiResponse({
