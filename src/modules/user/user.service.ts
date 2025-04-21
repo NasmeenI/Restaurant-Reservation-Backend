@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { CookieOptions, Response } from 'express';
-import { Role } from 'src/common/enum';
+import { Types } from 'mongoose';import { Role } from 'src/common/enum';
 import { OtpVerificationRepository } from 'src/modules/otp/otp.repository';
 import {
   OTPRequest,
@@ -19,6 +19,10 @@ export class UserService {
     private readonly userRepository: UserRepository,
     private readonly otpVerificationRepository: OtpVerificationRepository,
   ) {}
+
+  async getById(id: Types.ObjectId): Promise<UserDocument> {
+    return this.userRepository.getById(id);
+  }
 
   async validateUser(email: string, password: string): Promise<UserDocument> {
     try {

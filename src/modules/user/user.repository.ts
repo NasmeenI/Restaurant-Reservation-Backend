@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId, Types } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { User, UserDocument } from 'src/modules/user/schema/user.schema';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class UserRepository {
     return user;
   }
 
-  async getById(id: ObjectId): Promise<UserDocument> {
+  async getById(id: Types.ObjectId): Promise<UserDocument> {
     const user = await this.userModel.findById(id).exec();
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
