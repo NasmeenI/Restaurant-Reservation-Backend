@@ -10,7 +10,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { JWTAuthGuard } from 'src/middlewares/auth.middleware';
+import { Role } from 'src/common/enum';
+import { JWTAuthGuard, RolesGuard } from 'src/middlewares/auth.middleware';
 import {
   LoginRequest,
   OTPRequest,
@@ -106,7 +107,7 @@ export class UserController {
   }
 
   @Patch('/verify')
-  @UseGuards(JWTAuthGuard)
+  @UseGuards(JWTAuthGuard, RolesGuard([Role.GUEST]))
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Verify user with OTP', description: 'Requires authentication' })
   async verifyUser(
@@ -128,7 +129,7 @@ export class UserController {
   }
 
   @Patch('resent-otp')
-  @UseGuards(JWTAuthGuard)
+  @UseGuards(JWTAuthGuard, RolesGuard([Role.GUEST]))
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Resend OTP to user', description: 'Requires authentication' })
   async resentOtp(@Request() req, @Response() res) {
