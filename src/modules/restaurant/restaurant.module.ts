@@ -9,5 +9,6 @@ import { RestaurantService } from "src/modules/restaurant/restaurant.service";
   ],
   controllers: [RestaurantController],
   providers: [RestaurantService],
+  exports: [RestaurantService],
 })
 export class RestaurantModule {}

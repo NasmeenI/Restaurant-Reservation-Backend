@@ -117,9 +117,7 @@ export class ReservationRepository {
 
   async findByStartTimeRange(start: Date, end: Date): Promise<Reservation[]> {
     return this.reservationModel.find({
-      where: {
-        startTime: { $gte: start, $lte: end },
-      },
+      startTime: { $gte: start, $lte: end },
     });
   }
 }
