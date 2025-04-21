@@ -90,7 +90,7 @@ export class ReservationController {
         .json({ message: 'Exceed max seats' });
     }
     const myReservations = await this.reservationService.getOwnedReservations(userId);
-    if (myReservations.length > 3 && req.user.role !== Role.ADMIN) {
+    if (myReservations.length >= 3 && req.user.role !== Role.ADMIN) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: 'You can only have 3 reservations' });
