@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from 'src/database/database.module';
 import { RestaurantModule } from 'src/modules/restaurant/restaurant.module';
 import { ReservationModule } from 'src/modules/reservation/reservation.module';
+import { TwilioModule } from 'src/modules/twilio/twilio.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 
@@ -27,6 +28,7 @@ import { APP_GUARD } from '@nestjs/core';
     UserModule,
     RestaurantModule,
     ReservationModule,
+    TwilioModule,
   ],
   controllers: [AppController],
   providers: [
