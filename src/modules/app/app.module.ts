@@ -18,7 +18,7 @@ import { APP_GUARD } from '@nestjs/core';
       throttlers: [
         {
           ttl: 1000, // 1 second
-          limit: 5,
+          limit: 30,
         },
       ],
       errorMessage: 'Too many requests, please try again later.',
