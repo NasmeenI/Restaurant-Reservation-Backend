@@ -38,6 +38,7 @@ export class ReservationReminderService {
       try {
         await this.twilioService.sendSms(phone, message);
         console.log(`Reminder sent to ${phone}`);
+        await this.reservationService.markReminderSent(reservation._id);
       } catch (error) {
         console.error(`Failed to send reminder to ${phone}:`, error.message);
       }

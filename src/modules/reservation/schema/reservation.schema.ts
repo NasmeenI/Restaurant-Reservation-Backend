@@ -66,6 +66,14 @@ export class Reservation extends Document<Types.ObjectId> {
     type: Date,
   })
   updatedAt: Date;
+
+  @Prop({ default: false })
+  @ApiProperty({
+    description: 'Whether the reminder has been sent',
+    example: false,
+    type: Boolean,
+  })
+  reminderSent: boolean;
 }
 
 export const ReservationSchema = SchemaFactory.createForClass(Reservation);

@@ -85,4 +85,8 @@ export class ReservationService {
   async findByStartTimeRange(start: Date, end: Date): Promise<Reservation[]> {
     return this.reservationRepository.findByStartTimeRange(start, end);
   }
+
+  async markReminderSent(id: Types.ObjectId) {
+    await this.reservationRepository.markReminderSent(id);
+  }
 }
