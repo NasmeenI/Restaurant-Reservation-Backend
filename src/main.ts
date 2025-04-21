@@ -21,7 +21,7 @@ async function bootstrap() {
   app.use(helmet());
   app.use(hpp());
   app.enableCors({
-    origin: ['http://localhost:5173', 'https://restaurant-three-smoky.vercel.app'],
+    origin: ['http://localhost:3000', 'https://restaurant-peach-gamma.vercel.app'],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], 
     allowedHeaders: ['Content-Type', 'Authorization'], 
     credentials: true, // Allow cookies and auth headers (e.g., for JWT)
