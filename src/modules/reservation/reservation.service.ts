@@ -77,4 +77,8 @@ export class ReservationService {
     const currentTime = new Date();
     return reservation.startTime <= currentTime && reservation.endTime >= currentTime;
   }
+
+  async findByStartTimeRange(start: Date, end: Date): Promise<Reservation[]> {
+    return this.reservationRepository.findByStartTimeRange(start, end);
+  }
 }
