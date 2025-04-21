@@ -114,4 +114,12 @@ export class ReservationRepository {
 
     return availableSeats;
   }
+
+  async findByStartTimeRange(start: Date, end: Date): Promise<Reservation[]> {
+    return this.reservationModel.find({
+      where: {
+        startTime: { $gte: start, $lte: end },
+      },
+    });
+  }
 }
