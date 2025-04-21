@@ -120,4 +120,11 @@ export class ReservationRepository {
       startTime: { $gte: start, $lte: end },
     });
   }
+
+  async markReminderSent(id: Types.ObjectId) {
+    await this.reservationModel.updateOne(
+      { _id: id },
+      { $set: { reminderSent: true } }
+    );
+  }
 }
