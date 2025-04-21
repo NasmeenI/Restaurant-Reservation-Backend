@@ -19,6 +19,10 @@ export class ReservationRepository {
     return this.reservationModel;
   }
 
+  async getAll(): Promise<ReservationDocument[]> {
+    return this.reservationModel.find().exec();
+  }
+
   async getAllOwned(userId: Types.ObjectId): Promise<ReservationDocument[]> {
     return this.reservationModel.find({ userId }).exec();
   }

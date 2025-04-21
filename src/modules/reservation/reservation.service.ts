@@ -20,9 +20,13 @@ export class ReservationService {
     return this.reservationRepository.getById(reservationObjectId);
   }
 
-  async getReservations(userId: string) {
+  async getOwnedReservations(userId: string) {
     const userObjectId = new Types.ObjectId(userId);
     return this.reservationRepository.getAllOwned(userObjectId);
+  }
+
+  async getAllReservations() {
+    return this.reservationRepository.getAll();
   }
 
   async createReservation(reservation: CreateReservationRequest) {

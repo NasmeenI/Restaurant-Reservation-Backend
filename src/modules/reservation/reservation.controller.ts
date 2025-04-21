@@ -20,7 +20,7 @@ import {
 } from 'src/modules/reservation/dto/request-reservation.dto';
 import { Types } from 'mongoose';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Reservation } from 'src/modules/reservation/schema/reservation.schema';
+import { Reservation, ReservationDocument } from 'src/modules/reservation/schema/reservation.schema';
 
 @ApiTags('reservations')
 @Controller('reservations')
@@ -43,7 +43,12 @@ export class ReservationController {
   })
   async getReservations(@Request() req, @Response() res) {
     const userId = req.user._id;
-    const response = await this.reservationService.getReservations(userId);
+    let response: ReservationDocument[];
+    if (req.user.role === Role.ADMIN) {
+      response = await this.reservationService.getAllReservations();
+    } else {
+      response = await this.reservationService.getOwnedReservations(userId);
+    }
     return res.status(HttpStatus.OK).json(response);
   }
 
@@ -84,7 +89,7 @@ export class ReservationController {
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: 'Exceed max seats' });
     }
-    const myReservations = await this.reservationService.getReservations(userId);
+    const myReservations = await this.reservationService.getOwnedReservations(userId);
     if (myReservations.length > 3 && req.user.role !== Role.ADMIN) {
       return res
         .status(HttpStatus.BAD_REQUEST)
