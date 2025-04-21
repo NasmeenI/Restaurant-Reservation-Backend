@@ -31,7 +31,7 @@ async function bootstrap() {
   // Swagger setup
   const config = new DocumentBuilder()
     .setTitle('Restaurant Reservation API')
-    .setDescription('API description')
+    .setDescription('Restaurant Reservation API Documentation')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
@@ -46,6 +46,7 @@ async function bootstrap() {
     swaggerOptions: {
       persistAuthorization: true, // Keep auth token between refreshes
     },
+    jsonDocumentUrl: 'api-docs/json'
   });
 
   await app.listen(process.env.PORT ?? 3000);
