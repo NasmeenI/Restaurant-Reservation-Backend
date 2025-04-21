@@ -23,7 +23,7 @@ import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagg
 import { Reservation } from 'src/modules/reservation/schema/reservation.schema';
 
 @ApiTags('reservations')
-@Controller('reservation')
+@Controller('reservations')
 @UseGuards(JWTAuthGuard)
 @ApiBearerAuth()
 export class ReservationController {
