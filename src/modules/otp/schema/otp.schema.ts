@@ -9,7 +9,7 @@ export class OtpVerification extends Document<Types.ObjectId> {
   @Prop({ required: true })
   otp: string;
 
-  @Prop({ default: Date.now })
+  @Prop({ default: Date.now() })
   expiredAt: Date;
 }
 
