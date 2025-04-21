@@ -23,7 +23,7 @@ import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagg
 import { Reservation } from 'src/modules/reservation/schema/reservation.schema';
 
 @ApiTags('reservations')
-@Controller('reservation')
+@Controller('reservations')
 @UseGuards(JWTAuthGuard)
 @ApiBearerAuth()
 export class ReservationController {
@@ -84,6 +84,13 @@ export class ReservationController {
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: 'Exceed max seats' });
     }
+    const myReservations = await this.reservationService.getReservations(userId);
+    if (myReservations.length > 3 && req.user.role !== Role.ADMIN) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: 'You can only have 3 reservations' });
+    }
+
     const response =
       await this.reservationService.createReservation(reservationReq);
     return res.status(HttpStatus.CREATED).json(response);
