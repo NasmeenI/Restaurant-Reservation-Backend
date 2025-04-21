@@ -55,9 +55,8 @@ export class RestaurantController {
   }
 
   @Post()
-  @UseGuards(JWTAuthGuard)
   @ApiBearerAuth()
-  @UseGuards(RolesGuard([Role.ADMIN]))
+  @UseGuards(JWTAuthGuard, RolesGuard([Role.ADMIN]))
   @ApiOperation({ summary: 'Create a new restaurant', description: 'Allows only admin role to access this endpoint.'})
   @ApiResponse({
     status: HttpStatus.CREATED,
@@ -73,9 +72,8 @@ export class RestaurantController {
   }
 
   @Patch(':id')
-  @UseGuards(JWTAuthGuard)
   @ApiBearerAuth()
-  @UseGuards(RolesGuard([Role.ADMIN]))
+  @UseGuards(JWTAuthGuard, RolesGuard([Role.ADMIN]))
   @ApiOperation({ summary: 'Update restaurant by ID', description: 'Allows only admin role to access this endpoint.'})
   @ApiResponse({
     status: HttpStatus.OK,
@@ -101,9 +99,8 @@ export class RestaurantController {
   }
 
   @Delete(':id')
-  @UseGuards(JWTAuthGuard)
   @ApiBearerAuth()
-  @UseGuards(RolesGuard([Role.ADMIN]))
+  @UseGuards(JWTAuthGuard, RolesGuard([Role.ADMIN]))
   @ApiOperation({ summary: 'Delete restaurant by ID', description: 'Allows only admin role to access this endpoint.'})
   @ApiResponse({
     status: HttpStatus.OK,
