@@ -9,9 +9,11 @@ import { ReservationModule } from 'src/modules/reservation/reservation.module';
 import { TwilioModule } from 'src/modules/twilio/twilio.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -28,7 +30,7 @@ import { APP_GUARD } from '@nestjs/core';
     UserModule,
     RestaurantModule,
     ReservationModule,
-    TwilioModule,
+    TwilioModule
   ],
   controllers: [AppController],
   providers: [
