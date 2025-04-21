@@ -7,8 +7,15 @@ import { TwilioModule } from 'src/modules/twilio/twilio.module';
 import { TwilioService } from 'src/modules/twilio/twilio.service';
 
 @Module({
-  imports: [RepositoryModule, TwilioModule],
+  imports: [
+    RepositoryModule, 
+    TwilioModule
+  ],
   controllers: [ReservationController],
-  providers: [ReservationService, ReservationReminderService, TwilioService],
+  providers: [
+    ReservationService, 
+    ReservationReminderService, 
+    TwilioService
+  ],
 })
 export class ReservationModule {}
