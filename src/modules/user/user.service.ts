@@ -39,7 +39,7 @@ export class UserService {
     }
   }
 
-  async create(req: RegisterRequest): Promise<UserDocument> {
+  async createUser(req: RegisterRequest): Promise<UserDocument> {
     const userModel = await this.userRepository.getModel();
     const user = new userModel(req);
     await this.otpVerificationRepository.create(user._id);

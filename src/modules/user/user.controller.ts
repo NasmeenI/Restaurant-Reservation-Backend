@@ -54,7 +54,7 @@ export class UserController {
     type: TokenResponse,
   })
   async register(@Body() registerRequest: RegisterRequest, @Response() res) {
-    const user = await this.userService.create(registerRequest);
+    const user = await this.userService.createUser(registerRequest);
     const response = await this.userService.generateToken(user);
 
     this.userService.setCookie(res, "token" , response.token, {});
