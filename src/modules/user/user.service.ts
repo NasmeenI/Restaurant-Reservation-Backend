@@ -43,7 +43,7 @@ export class UserService {
     const userModel = await this.userRepository.getModel();
     const user = new userModel(req);
     await this.otpVerificationRepository.create(user._id);
-    return await user.save();
+    return await this.userRepository.create(user);
   }
 
   async getByEmail(email: string): Promise<UserDocument> {
