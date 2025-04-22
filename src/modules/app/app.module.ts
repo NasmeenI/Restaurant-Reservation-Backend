@@ -21,7 +21,7 @@ import { ScheduleModule } from '@nestjs/schedule';
       throttlers: [
         {
           ttl: 1000, // 1 second
-          limit: 30,
+          limit: 100,
         },
       ],
       errorMessage: 'Too many requests, please try again later.',
