@@ -74,4 +74,12 @@ export class UserRepository {
       );
     }
   }
+
+  async delete(id: Types.ObjectId): Promise<UserDocument> {
+    const deletedUser = await this.userModel.findByIdAndDelete(id).exec();
+    if (!deletedUser) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    return deletedUser;
+  }
 }

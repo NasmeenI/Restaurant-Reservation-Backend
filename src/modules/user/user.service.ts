@@ -39,11 +39,12 @@ export class UserService {
     }
   }
 
-  async createUser(req: RegisterRequest): Promise<UserDocument> {
+  async createUser(req: RegisterRequest) {
     const userModel = await this.userRepository.getModel();
-    const user = new userModel(req);
-    await this.otpVerificationRepository.create(user._id);
-    return await this.userRepository.create(user);
+    const userReq = new userModel(req);
+    const otp = await this.otpVerificationRepository.create(userReq._id);
+    const user = await this.userRepository.create(userReq);
+    return { user, otp };
   }
 
   async getByEmail(email: string): Promise<UserDocument> {
@@ -123,5 +124,9 @@ export class UserService {
     };
 
     res.clearCookie(name, defaultOptions);
+  }
+
+  async deleteUser(id: Types.ObjectId): Promise<UserDocument> {
+    return this.userRepository.delete(id);
   }
 }

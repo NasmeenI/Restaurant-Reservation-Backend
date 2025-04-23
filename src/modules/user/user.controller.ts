@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
+  Param,
   Patch,
   Post,
   Request,
@@ -164,6 +166,31 @@ export class UserController {
     await this.userService.resentOtp(userData);
     return res.status(HttpStatus.OK).json({
       message: 'OTP resent successfully',
+    });
+  }
+
+  @Delete(':id')
+  @UseGuards(JWTAuthGuard, RolesGuard([Role.ADMIN]))
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Delete user',
+    description: 'Requires authentication and admin role',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'User deleted successfully',
+  })
+  async deleteUser(@Param() id: string, @Request() req, @Response() res) {
+    const idObj = new Types.ObjectId(id);
+    const user = this.userService.getById(idObj);
+    if (!user) {
+      return res.status(HttpStatus.NOT_FOUND).json({
+        message: 'User not found',
+      });
+    }
+    await this.userService.deleteUser(idObj);
+    return res.status(HttpStatus.OK).json({
+      message: 'User deleted successfully',
     });
   }
 }
