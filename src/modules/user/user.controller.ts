@@ -9,7 +9,13 @@ import {
   Response,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { Types } from 'mongoose';
 import { Role } from 'src/common/enum';
 import { JWTAuthGuard, RolesGuard } from 'src/middlewares/auth.middleware';
 import {
@@ -19,6 +25,7 @@ import {
 } from 'src/modules/user/dto/request-user.dto';
 import {
   TokenResponse,
+  TokenWithOTP,
   UserResponse,
 } from 'src/modules/user/dto/response-user.dto';
 import { UserService } from 'src/modules/user/user.service';
@@ -42,7 +49,7 @@ export class UserController {
     );
     const response = await this.userService.generateToken(user);
 
-    this.userService.setCookie(res, "token" , response.token, {});
+    this.userService.setCookie(res, 'token', response.token, {});
     return res.status(HttpStatus.OK).json(response);
   }
 
@@ -54,10 +61,14 @@ export class UserController {
     type: TokenResponse,
   })
   async register(@Body() registerRequest: RegisterRequest, @Response() res) {
-    const user = await this.userService.createUser(registerRequest);
-    const response = await this.userService.generateToken(user);
+    const { user, otp } = await this.userService.createUser(registerRequest);
+    const tokenRes = await this.userService.generateToken(user);
 
-    this.userService.setCookie(res, "token" , response.token, {});
+    this.userService.setCookie(res, 'token', tokenRes.token, {});
+    const response: TokenWithOTP = {
+      token: tokenRes.token,
+      otp: otp.otp,
+    };
     return res.status(HttpStatus.CREATED).json(response);
   }
 
@@ -78,7 +89,7 @@ export class UserController {
       });
     }
 
-    this.userService.removeCookie(res, "token" , {});
+    this.userService.removeCookie(res, 'token', {});
     return res.status(HttpStatus.OK).json({
       message: 'User logged out successfully',
     });
@@ -87,7 +98,10 @@ export class UserController {
   @Get('/me')
   @UseGuards(JWTAuthGuard)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get user data', description: 'Requires authentication' })
+  @ApiOperation({
+    summary: 'Get user data',
+    description: 'Requires authentication',
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User data retrieved successfully',
@@ -109,7 +123,10 @@ export class UserController {
   @Patch('/verify')
   @UseGuards(JWTAuthGuard, RolesGuard([Role.GUEST]))
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Verify user with OTP', description: 'Requires authentication' })
+  @ApiOperation({
+    summary: 'Verify user with OTP',
+    description: 'Requires authentication',
+  })
   async verifyUser(
     @Body() otpRequest: OTPRequest,
     @Request() req,
@@ -131,7 +148,10 @@ export class UserController {
   @Patch('resent-otp')
   @UseGuards(JWTAuthGuard, RolesGuard([Role.GUEST]))
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Resend OTP to user', description: 'Requires authentication' })
+  @ApiOperation({
+    summary: 'Resend OTP to user',
+    description: 'Requires authentication',
+  })
   async resentOtp(@Request() req, @Response() res) {
     const user = req['user'];
     const userData = await this.userService.getByEmail(user.email);

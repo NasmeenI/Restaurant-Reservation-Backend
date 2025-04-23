@@ -11,6 +11,15 @@ export class TokenResponse {
   token: string;
 }
 
+export class TokenWithOTP extends TokenResponse {
+  @ApiProperty({
+    description: 'OTP for verification',
+    example: '123456',
+    type: String,
+  })
+  otp: string;
+}
+
 export class UserResponse {
   @ApiProperty({
     description: 'User ID',
