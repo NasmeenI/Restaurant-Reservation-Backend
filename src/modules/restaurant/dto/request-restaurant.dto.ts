@@ -1,7 +1,7 @@
 import { PartialType } from "@nestjs/mapped-types";
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform } from "class-transformer";
-import { IsEnum, IsNotEmpty, IsNumber, IsString, Matches } from "class-validator";
+import { IsEnum, IsNotEmpty, IsNumber, IsPositive, IsString, Matches } from "class-validator";
 import { RestaurantType } from "src/common/enum";
 import { IsOpenBeforeClose } from "src/common/validator/validator";
 
@@ -75,6 +75,7 @@ export class CreateRestaurantRequest {
   closeTime: string;
 
   @IsNumber()
+  @IsPositive({ message: 'Max seats must be a positive number' })
   @IsNotEmpty()
   @ApiProperty({
     description: 'The maximum seats of the restaurant',

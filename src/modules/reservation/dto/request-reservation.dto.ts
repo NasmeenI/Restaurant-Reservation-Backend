@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsEmpty, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsDate, IsEmpty, IsNotEmpty, IsNumber, IsPositive } from 'class-validator';
 import { Types } from 'mongoose';
 import { IsFutureDate, IsStartBeforeEnd } from 'src/common/validator/validator';
 
@@ -13,6 +13,7 @@ export class CreateReservationRequest {
 
   @IsNotEmpty()
   @IsNumber()
+  @IsPositive({ message: 'Number of seats must be a positive number' })
   @ApiProperty({
     description: 'Number of seats reserved',
     example: 4,
