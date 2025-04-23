@@ -82,6 +82,8 @@ export type ReservationDocument = HydratedDocument<Reservation>;
 ReservationSchema.pre('save', async function (next) {
   this.updatedAt = new Date(Date.now());
 
+  this.reminderSent = false; 
+
   if (!this.createdAt) {
     this.createdAt = new Date(Date.now());
   }
