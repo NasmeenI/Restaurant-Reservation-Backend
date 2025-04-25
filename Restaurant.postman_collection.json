@@ -29,7 +29,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"user.don@gmail.com\",\r\n    \"password\" : \"12345678\"\r\n}",
+							"raw": "{\r\n    \"email\": \"dev.don@gmail.com\",\r\n    \"password\" : \"12345678\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -69,7 +69,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"user.don@gmail.com\",\r\n    \"password\" : \"12345678\",\r\n    \"username\" : \"donzaza\",\r\n    \"phone\" : \"0980103167\"\r\n}",
+							"raw": "{\r\n    \"email\": \"user.don1234@gmail.com\",\r\n    \"password\" : \"12345678\",\r\n    \"username\" : \"donzaza\",\r\n    \"phone\" : \"0650793375\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -84,6 +84,46 @@
 							"path": [
 								"users",
 								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"TOKEN\", null)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/users/logout",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"users",
+								"logout"
 							]
 						}
 					},
@@ -238,6 +278,53 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Delete User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{API_URL}}/users/68086561e042998a45bbfa34",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"users",
+								"68086561e042998a45bbfa34"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -373,7 +460,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\" : \"test234113131\",\r\n    \"type\" : \"Fast Food\",\r\n    \"address\" : \"adeaqweqwe\",\r\n    \"phone\" : \"0901011111\",\r\n    \"openTime\" : \"10.00\",\r\n    \"closeTime\" : \"16.00\",\r\n    \"maxSeats\": 20\r\n}",
+							"raw": "{\r\n    \"name\" : \"Big Mac\",\r\n    \"type\" : \"Fast Food\",\r\n    \"address\" : \"adeaqweqwe\",\r\n    \"phone\" : \"0901011111\",\r\n    \"openTime\" : \"10.00\",\r\n    \"closeTime\" : \"16.00\",\r\n    \"maxSeats\": 20\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -501,7 +588,7 @@
 			"name": "Reservation",
 			"item": [
 				{
-					"name": "GetOwned",
+					"name": "GetOwned / GetAll",
 					"event": [
 						{
 							"listen": "test",
@@ -535,12 +622,12 @@
 							}
 						],
 						"url": {
-							"raw": "{{API_URL}}/reservation",
+							"raw": "{{API_URL}}/reservations",
 							"host": [
 								"{{API_URL}}"
 							],
 							"path": [
-								"reservation"
+								"reservations"
 							]
 						}
 					},
@@ -582,7 +669,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"seats\" : 15,\r\n    \"startTime\" : \"2025-04-20T18:41:00.439Z\",\r\n    \"endTime\" : \"2025-05-13T18:40:00.439Z\"\r\n}",
+							"raw": "{\r\n    \"seats\" : 12,\r\n    \"startTime\" : \"2025-05-20T18:41:00.439Z\",\r\n    \"endTime\" : \"2025-05-13T18:43:00.439Z\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -590,12 +677,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{API_URL}}/reservation/67fc05448e1515cfb2097b4a",
+							"raw": "{{API_URL}}/reservations/67fc05448e1515cfb2097b4a",
 							"host": [
 								"{{API_URL}}"
 							],
 							"path": [
-								"reservation",
+								"reservations",
 								"67fc05448e1515cfb2097b4a"
 							]
 						}
@@ -646,12 +733,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{API_URL}}/reservation/68012b7e4031e2fe683dcfae",
+							"raw": "{{API_URL}}/reservations/68012b7e4031e2fe683dcfae",
 							"host": [
 								"{{API_URL}}"
 							],
 							"path": [
-								"reservation",
+								"reservations",
 								"68012b7e4031e2fe683dcfae"
 							]
 						}
@@ -693,13 +780,1042 @@
 							}
 						],
 						"url": {
-							"raw": "{{API_URL}}/reservation/67fc05448e1515cfb2097b4a",
+							"raw": "{{API_URL}}/reservations/67fc05448e1515cfb2097b4a",
 							"host": [
 								"{{API_URL}}"
 							],
 							"path": [
-								"reservation",
+								"reservations",
 								"67fc05448e1515cfb2097b4a"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Testcase",
+			"item": [
+				{
+					"name": "User Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"pm.environment.set(\"TOKEN\", responseBody.token)\r",
+									"pm.environment.set(\"OTP\", responseBody.otp)\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Token is generated\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.token).to.be.a(\"string\");\r",
+									"    pm.expect(jsonData.token).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"OTP is generated\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.otp).to.be.a(\"string\");\r",
+									"    pm.expect(jsonData.otp).to.not.be.empty;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user.don123@gmail.com\",\r\n    \"password\" : \"12345678\",\r\n    \"username\" : \"donzaza\",\r\n    \"phone\" : \"0980103167\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROD_API_URL}}/users/register",
+							"host": [
+								"{{PROD_API_URL}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"pm.environment.set(\"TOKEN\", responseBody.token)\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Token is generated\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.token).to.be.a(\"string\");\r",
+									"    pm.expect(jsonData.token).to.not.be.empty;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user.don123@gmail.com\",\r\n    \"password\" : \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROD_API_URL}}/users/login",
+							"host": [
+								"{{PROD_API_URL}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"otp\" : {{OTP}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROD_API_URL}}/users/verify",
+							"host": [
+								"{{PROD_API_URL}}"
+							],
+							"path": [
+								"users",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Me",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"UserId\", pm.response.json()._id)\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"User role is updated to User\", function () {\r",
+									"    var responseBody = pm.response.json();\r",
+									"    pm.expect(responseBody.role).to.eql(\"User\");\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{PROD_API_URL}}/users/me",
+							"host": [
+								"{{PROD_API_URL}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User View Restaurant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"const restaurantId = responseBody[0]._id\r",
+									"pm.environment.set(\"RestaurantId\", restaurantId)\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Restaurant is not empty\", function () {\r",
+									"    var responseBody = pm.response.json();\r",
+									"    pm.expect(responseBody).to.not.be.empty;\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{PROD_API_URL}}/restaurants",
+							"host": [
+								"{{PROD_API_URL}}"
+							],
+							"path": [
+								"restaurants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Create Reservation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"const reservationId = responseBody._id\r",
+									"pm.environment.set(\"ReservationId\", reservationId)\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Reservation is created\", function () {\r",
+									"    pm.expect(responseBody).to.have.property(\"_id\");\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"seats\" : 15,\r\n    \"startTime\" : \"2025-06-13T18:40:00.439Z\",\r\n    \"endTime\" : \"2025-06-13T18:45:00.439Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROD_API_URL}}/reservations/{{RestaurantId}}",
+							"host": [
+								"{{PROD_API_URL}}"
+							],
+							"path": [
+								"reservations",
+								"{{RestaurantId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Create Another Reservation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"const reservationId = responseBody._id\r",
+									"pm.environment.set(\"ReservationId2\", reservationId)\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Reservation is created\", function () {\r",
+									"    pm.expect(responseBody).to.have.property(\"_id\");\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"seats\" : 1,\r\n    \"startTime\" : \"2025-06-13T18:40:00.439Z\",\r\n    \"endTime\" : \"2025-06-13T18:45:00.439Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROD_API_URL}}/reservations/{{RestaurantId}}",
+							"host": [
+								"{{PROD_API_URL}}"
+							],
+							"path": [
+								"reservations",
+								"{{RestaurantId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Create Invalid Reservation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"seats\" : -1,\r\n    \"startTime\" : \"2025-10-20T18:41:00.439Z\",\r\n    \"endTime\" : \"2025-05-13T18:40:00.439Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROD_API_URL}}/reservations/{{RestaurantId}}",
+							"host": [
+								"{{PROD_API_URL}}"
+							],
+							"path": [
+								"reservations",
+								"{{RestaurantId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User GetOwned Reservation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"My reservation is found\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    const myId = pm.environment.get(\"ReservationId\")\r",
+									"    const myId2 = pm.environment.get(\"ReservationId2\")\r",
+									"    pm.expect(jsonData).to.be.an('array')\r",
+									"\r",
+									"    const hasMatchingId = jsonData.some(item => item._id == myId);\r",
+									"    const hasMatchingId2 = jsonData.some(item => item._id == myId2);\r",
+									"    \r",
+									"    pm.expect(hasMatchingId).to.be.true;\r",
+									"    pm.expect(hasMatchingId2).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{PROD_API_URL}}/reservations",
+							"host": [
+								"{{PROD_API_URL}}"
+							],
+							"path": [
+								"reservations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Update Reservation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"My reservation is updated\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"\r",
+									"    const myId = pm.environment.get(\"ReservationId\")\r",
+									"    pm.expect(jsonData._id).to.be.equal(myId)\r",
+									"\r",
+									"    pm.expect(jsonData.seats).to.be.equal(7)\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"seats\" : 7,\r\n    \"startTime\" : \"2025-05-13T18:40:00.439Z\",\r\n    \"endTime\" : \"2025-05-13T18:41:00.439Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROD_API_URL}}/reservations/{{ReservationId}}",
+							"host": [
+								"{{PROD_API_URL}}"
+							],
+							"path": [
+								"reservations",
+								"{{ReservationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Delete Reservation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{PROD_API_URL}}/reservations/{{ReservationId}}",
+							"host": [
+								"{{PROD_API_URL}}"
+							],
+							"path": [
+								"reservations",
+								"{{ReservationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"TOKEN\", null)\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{PROD_API_URL}}/users/logout",
+							"host": [
+								"{{PROD_API_URL}}"
+							],
+							"path": [
+								"users",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"pm.environment.set(\"TOKEN\", responseBody.token)\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Token is generated\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.token).to.be.a(\"string\");\r",
+									"    pm.expect(jsonData.token).to.not.be.empty;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"dev.don@gmail.com\",\r\n    \"password\" : \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROD_API_URL}}/users/login",
+							"host": [
+								"{{PROD_API_URL}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin GetAll Reservation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"All reservation are found\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData.length).to.be.above(1);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"User reservation is found\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    const reservationId2 = pm.environment.get(\"ReservationId2\")\r",
+									"\r",
+									"    pm.expect(jsonData.some(reservation => reservation._id === reservationId2)).to.be.true;\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{PROD_API_URL}}/reservations",
+							"host": [
+								"{{PROD_API_URL}}"
+							],
+							"path": [
+								"reservations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Update Reservation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Target reservation is updated\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"\r",
+									"    const myId = pm.environment.get(\"ReservationId2\")\r",
+									"    pm.expect(jsonData._id).to.be.equal(myId)\r",
+									"\r",
+									"    pm.expect(jsonData.seats).to.be.equal(3)\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"seats\" : 3,\r\n    \"startTime\" : \"2025-05-13T18:40:00.439Z\",\r\n    \"endTime\" : \"2025-05-13T18:41:00.439Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROD_API_URL}}/reservations/{{ReservationId2}}",
+							"host": [
+								"{{PROD_API_URL}}"
+							],
+							"path": [
+								"reservations",
+								"{{ReservationId2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Delete Reservation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{PROD_API_URL}}/reservations/{{ReservationId2}}",
+							"host": [
+								"{{PROD_API_URL}}"
+							],
+							"path": [
+								"reservations",
+								"{{ReservationId2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Delete User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{PROD_API_URL}}/users/{{UserId}}",
+							"host": [
+								"{{PROD_API_URL}}"
+							],
+							"path": [
+								"users",
+								"{{UserId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"TOKEN\", null)\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"UserId\", null)\r",
+									"pm.environment.set(\"RestaurantId\", null)\r",
+									"pm.environment.set(\"ReservationId\", null)\r",
+									"pm.environment.set(\"ReservationId2\", null)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{PROD_API_URL}}/users/logout",
+							"host": [
+								"{{PROD_API_URL}}"
+							],
+							"path": [
+								"users",
+								"logout"
 							]
 						}
 					},
