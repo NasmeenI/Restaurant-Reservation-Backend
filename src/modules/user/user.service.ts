@@ -12,6 +12,7 @@ import {
 import { TokenResponse } from 'src/modules/user/dto/response-user.dto';
 import { UserDocument } from 'src/modules/user/schema/user.schema';
 import { UserRepository } from 'src/modules/user/user.repository';
+import { TwilioService } from 'src/modules/twilio/twilio.service';
 
 @Injectable()
 export class UserService {
@@ -19,6 +20,7 @@ export class UserService {
     private readonly jwtService: JwtService,
     private readonly userRepository: UserRepository,
     private readonly otpVerificationRepository: OtpVerificationRepository,
+    private readonly twilioService: TwilioService,
   ) {}
 
   async getById(id: Types.ObjectId): Promise<UserDocument> {
@@ -44,6 +46,9 @@ export class UserService {
     const userReq = new userModel(req);
     const otp = await this.otpVerificationRepository.create(userReq._id);
     const user = await this.userRepository.create(userReq);
+
+    const message = `Hi ${user.username}, welcome! Please verify your account by entering this code: ${otp.otp}.`;
+    await this.twilioService.sendSms(user.phone, message);
     return { user, otp };
   }
 

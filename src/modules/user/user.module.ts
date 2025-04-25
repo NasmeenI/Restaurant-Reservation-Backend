@@ -4,6 +4,8 @@ import { UserController } from 'src/modules/user/user.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RepositoryModule } from 'src/database/repository.module';
+import { TwilioModule } from 'src/modules/twilio/twilio.module';
+import { TwilioService } from 'src/modules/twilio/twilio.service';
 
 @Module({
   imports: [
@@ -16,9 +18,13 @@ import { RepositoryModule } from 'src/database/repository.module';
       }),
     }),
     RepositoryModule,
+    TwilioModule,
   ],
   controllers: [UserController],
-  providers: [UserService],
+  providers: [
+    UserService,
+    TwilioService,
+  ],
   exports: [UserService],
 })
 export class UserModule {}
