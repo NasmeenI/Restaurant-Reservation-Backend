@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { User, UserDocument } from 'src/modules/user/schema/user.schema';
@@ -36,15 +36,9 @@ export class UserRepository {
     } catch (error) {
       if (error.code === 11000) {
         // MongoDB duplicate key error code
-        throw new HttpException(
-          'Email address is already in use.',
-          HttpStatus.BAD_REQUEST,
-        );
+        throw new BadRequestException('Email address is already in use.');
       }
-      throw new HttpException(
-        'Internal server error',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new InternalServerErrorException('Failed to create user');
     }
   }
 
@@ -57,21 +51,15 @@ export class UserRepository {
         })
         .exec();
       if (!updatedUser) {
-        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        throw new NotFoundException('User not found');
       }
       return updatedUser;
     } catch (error) {
       if (error.code === 11000) {
         // MongoDB duplicate key error code
-        throw new HttpException(
-          'Email address is already in use.',
-          HttpStatus.BAD_REQUEST,
-        );
+        throw new BadRequestException('Email address is already in use.');
       }
-      throw new HttpException(
-        'Internal server error',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new InternalServerErrorException('Failed to update user');
     }
   }
 
