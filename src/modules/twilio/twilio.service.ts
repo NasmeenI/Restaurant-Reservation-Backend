@@ -13,10 +13,18 @@ export class TwilioService {
   }
 
   async sendSms(to: string, message: string): Promise<any> {
+    const phone = this.formatPhoneNumber(to);
     return await this.client.messages.create({
       body: message,
       from: process.env.TWILIO_PHONE_NUMBER,
-      to,
+      to: phone
     });
+  }
+
+  private formatPhoneNumber(phone: string): string {
+    if (phone.startsWith('0')) {
+      return '+66' + phone.slice(1);
+    }
+    return phone;
   }
 }

@@ -31,23 +31,15 @@ export class ReservationReminderService {
       const user = await this.userService.getById(reservation.userId);
       const restaurant = await this.restaurantService.getRestaurantById(reservation.restaurantId);
 
-      const phone = this.formatPhoneNumber(user.phone);
       const message = `Hi ${user.username}, just a reminder of your reservation at ${restaurant.name} in 1 hours. See you soon!`;
       
       try {
-        await this.twilioService.sendSms(phone, message);
-        console.log(`Reminder sent to ${phone}`);
+        await this.twilioService.sendSms(user.phone, message);
+        console.log(`Reminder sent to ${user.phone}`);
         await this.reservationService.markReminderSent(reservation._id);
       } catch (error) {
-        console.error(`Failed to send reminder to ${phone}:`, error.message);
+        console.error(`Failed to send reminder to ${user.phone}:`, error.message);
       }
     }
-  }
-
-  private formatPhoneNumber(phone: string): string {
-    if (phone.startsWith('0')) {
-      return '+66' + phone.slice(1);
-    }
-    return phone;
   }
 }
