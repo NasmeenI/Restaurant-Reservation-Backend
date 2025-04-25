@@ -1,4 +1,11 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { CookieOptions, Response } from 'express';
@@ -33,11 +40,11 @@ export class UserService {
 
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
-        throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+        throw new UnauthorizedException('Invalid credentials');
       }
       return user;
     } catch (error) {
-      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+      throw new UnauthorizedException('Invalid credentials');
     }
   }
 
@@ -73,15 +80,15 @@ export class UserService {
       user._id,
     );
     if (!otpVerification) {
-      throw new HttpException('OTP not found', HttpStatus.NOT_FOUND);
+      throw new NotFoundException('OTP not found');
     }
 
     if (otpReq.otp !== otpVerification.otp) {
-      throw new HttpException('Invalid OTP', HttpStatus.UNAUTHORIZED);
+      throw new UnauthorizedException('Invalid OTP');
     }
     const currentTime = new Date(Date.now());
     if (currentTime > otpVerification.expiredAt) {
-      throw new HttpException('OTP expired', HttpStatus.UNAUTHORIZED);
+      throw new UnauthorizedException('OTP expired');
     }
 
     const res = await this.userRepository.update(user._id, { role: Role.USER });
@@ -94,10 +101,7 @@ export class UserService {
       await this.otpVerificationRepository.refresh(user._id);
     } catch (error) {
       console.log(error);
-      throw new HttpException(
-        'Internal server error',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new InternalServerErrorException('Failed to refresh OTP');
     }
   }
 

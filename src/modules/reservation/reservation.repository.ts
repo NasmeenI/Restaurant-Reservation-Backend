@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import {
@@ -36,7 +42,7 @@ export class ReservationRepository {
   async getById(id: Types.ObjectId): Promise<ReservationDocument> {
     const reservation = await this.reservationModel.findById(id).exec();
     if (!reservation) {
-      throw new HttpException('Reservation not found', HttpStatus.NOT_FOUND);
+      throw new NotFoundException('Reservation not found');
     }
     return reservation;
   }
@@ -48,10 +54,7 @@ export class ReservationRepository {
       const newReservation = new this.reservationModel(reservation);
       return await newReservation.save();
     } catch (error) {
-      throw new HttpException(
-        'Internal server error',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new InternalServerErrorException('Failed to create reservation');
     }
   }
 
@@ -63,7 +66,7 @@ export class ReservationRepository {
       .findByIdAndUpdate(id, reservation, { new: true })
       .exec();
     if (!updatedReservation) {
-      throw new HttpException('Reservation not found', HttpStatus.NOT_FOUND);
+      throw new NotFoundException('Reservation not found');
     }
     return updatedReservation;
   }
@@ -73,7 +76,7 @@ export class ReservationRepository {
       .findByIdAndDelete(id)
       .exec();
     if (!deletedReservation) {
-      throw new HttpException('Reservation not found', HttpStatus.NOT_FOUND);
+      throw new NotFoundException('Reservation not found');
     }
     return deletedReservation;
   }
@@ -124,7 +127,7 @@ export class ReservationRepository {
   async markReminderSent(id: Types.ObjectId) {
     await this.reservationModel.updateOne(
       { _id: id },
-      { $set: { reminderSent: true } }
+      { $set: { reminderSent: true } },
     );
   }
 }

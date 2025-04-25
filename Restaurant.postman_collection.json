@@ -314,13 +314,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{API_URL}}/users/68086561e042998a45bbfa34",
+							"raw": "{{API_URL}}/users/680bb27800088d06ad65d43a",
 							"host": [
 								"{{API_URL}}"
 							],
 							"path": [
 								"users",
-								"68086561e042998a45bbfa34"
+								"680bb27800088d06ad65d43a"
 							]
 						}
 					},
@@ -669,7 +669,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"seats\" : 12,\r\n    \"startTime\" : \"2025-05-20T18:41:00.439Z\",\r\n    \"endTime\" : \"2025-05-13T18:43:00.439Z\"\r\n}",
+							"raw": "{\r\n    \"seats\" : 12,\r\n    \"startTime\" : \"2025-05-13T18:35:00.439Z\",\r\n    \"endTime\" : \"2025-05-13T18:40:00.439Z\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -822,7 +822,9 @@
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.otp).to.be.a(\"string\");\r",
 									"    pm.expect(jsonData.otp).to.not.be.empty;\r",
-									"});"
+									"});\r",
+									"\r",
+									"pm.execution.setNextRequest(\"User Login\")"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -834,7 +836,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"user.don123@gmail.com\",\r\n    \"password\" : \"12345678\",\r\n    \"username\" : \"donzaza\",\r\n    \"phone\" : \"0980103167\"\r\n}",
+							"raw": "{\r\n    \"email\": \"test.user@gmail.com\",\r\n    \"password\" : \"12345678\",\r\n    \"username\" : \"donzaza\",\r\n    \"phone\" : \"0650793375\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -873,6 +875,8 @@
 									"    pm.expect(jsonData.token).to.be.a(\"string\");\r",
 									"    pm.expect(jsonData.token).to.not.be.empty;\r",
 									"});\r",
+									"\r",
+									"pm.execution.setNextRequest(\"Verify User\")\r",
 									""
 								],
 								"type": "text/javascript",
@@ -885,7 +889,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"user.don123@gmail.com\",\r\n    \"password\" : \"12345678\"\r\n}",
+							"raw": "{\r\n    \"email\": \"test.user@gmail.com\",\r\n    \"password\" : \"12345678\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -914,7 +918,9 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});"
+									"});\r",
+									"\r",
+									"pm.execution.setNextRequest(\"User Me\")"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -980,6 +986,8 @@
 									"    var responseBody = pm.response.json();\r",
 									"    pm.expect(responseBody.role).to.eql(\"User\");\r",
 									"})\r",
+									"\r",
+									"pm.execution.setNextRequest(\"User View Restaurant\")\r",
 									""
 								],
 								"type": "text/javascript",
@@ -1039,6 +1047,8 @@
 									"    var responseBody = pm.response.json();\r",
 									"    pm.expect(responseBody).to.not.be.empty;\r",
 									"})\r",
+									"\r",
+									"pm.execution.setNextRequest(\"User Create Reservation\")\r",
 									""
 								],
 								"type": "text/javascript",
@@ -1096,6 +1106,8 @@
 									"pm.test(\"Reservation is created\", function () {\r",
 									"    pm.expect(responseBody).to.have.property(\"_id\");\r",
 									"})\r",
+									"\r",
+									"pm.execution.setNextRequest(\"User Create Another Reservation\")\r",
 									"\r",
 									""
 								],
@@ -1165,6 +1177,8 @@
 									"    pm.expect(responseBody).to.have.property(\"_id\");\r",
 									"})\r",
 									"\r",
+									"pm.execution.setNextRequest(\"User Create Invalid Reservation\")\r",
+									"\r",
 									""
 								],
 								"type": "text/javascript",
@@ -1223,7 +1237,9 @@
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {\r",
 									"    pm.response.to.have.status(400);\r",
-									"});"
+									"});\r",
+									"\r",
+									"pm.execution.setNextRequest(\"User GetOwned Reservation\")"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -1294,7 +1310,14 @@
 									"    \r",
 									"    pm.expect(hasMatchingId).to.be.true;\r",
 									"    pm.expect(hasMatchingId2).to.be.true;\r",
-									"});"
+									"});\r",
+									"\r",
+									"pm.test(\"Only found my reservation\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).length(2)\r",
+									"})\r",
+									"\r",
+									"pm.execution.setNextRequest(\"User Update Reservation\")"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -1351,7 +1374,9 @@
 									"    pm.expect(jsonData._id).to.be.equal(myId)\r",
 									"\r",
 									"    pm.expect(jsonData.seats).to.be.equal(7)\r",
-									"})"
+									"})\r",
+									"\r",
+									"pm.execution.setNextRequest(\"User Delete Reservation\")"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -1409,7 +1434,9 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});"
+									"});\r",
+									"\r",
+									"pm.execution.setNextRequest(\"User Logout\")"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -1460,7 +1487,9 @@
 									"\r",
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});"
+									"});\r",
+									"\r",
+									"pm.execution.setNextRequest(\"Admin Login\")"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -1511,7 +1540,9 @@
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.token).to.be.a(\"string\");\r",
 									"    pm.expect(jsonData.token).to.not.be.empty;\r",
-									"});"
+									"});\r",
+									"\r",
+									"pm.execution.setNextRequest(\"Admin GetAll Reservation\")"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -1565,7 +1596,9 @@
 									"    const reservationId2 = pm.environment.get(\"ReservationId2\")\r",
 									"\r",
 									"    pm.expect(jsonData.some(reservation => reservation._id === reservationId2)).to.be.true;\r",
-									"})"
+									"})\r",
+									"\r",
+									"pm.execution.setNextRequest(\"Admin Update Reservation\")"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -1623,6 +1656,8 @@
 									"\r",
 									"    pm.expect(jsonData.seats).to.be.equal(3)\r",
 									"})\r",
+									"\r",
+									"pm.execution.setNextRequest(\"Admin Delete Reservation\")\r",
 									""
 								],
 								"type": "text/javascript",
@@ -1681,7 +1716,9 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});"
+									"});\r",
+									"\r",
+									"pm.execution.setNextRequest(\"Admin Delete User\")"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -1732,7 +1769,7 @@
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									""
+									"pm.execution.setNextRequest(\"Admin Logout\")"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -1785,10 +1822,13 @@
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
+									"pm.environment.set(\"OTP\",null)\r",
 									"pm.environment.set(\"UserId\", null)\r",
 									"pm.environment.set(\"RestaurantId\", null)\r",
 									"pm.environment.set(\"ReservationId\", null)\r",
-									"pm.environment.set(\"ReservationId2\", null)"
+									"pm.environment.set(\"ReservationId2\", null)\r",
+									"\r",
+									"pm.execution.setNextRequest(null)"
 								],
 								"type": "text/javascript",
 								"packages": {}

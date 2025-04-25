@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { Types } from 'mongoose';
 import { ReservationRepository } from 'src/modules/reservation/reservation.repository';
 import {
@@ -47,9 +47,10 @@ export class RestaurantService {
     const thisRestaurant =
       await this.restaurantRepository.getById(restaurantId);
     if (!thisRestaurant) {
-      throw new HttpException('Restaurant not found', HttpStatus.NOT_FOUND);
+      throw new NotFoundException('Restaurant not found');
     }
-    const availableSeats = await this.reservationRepository.countAvailableSeatsSlot(thisRestaurant);
+    const availableSeats =
+      await this.reservationRepository.countAvailableSeatsSlot(thisRestaurant);
 
     const response: ResponseRestaurantWithReservation = {
       restaurant: thisRestaurant,
@@ -57,5 +58,4 @@ export class RestaurantService {
     };
     return response;
   }
-
 }

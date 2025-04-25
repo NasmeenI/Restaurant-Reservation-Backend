@@ -1,4 +1,11 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId, Types } from 'mongoose';
 import {
@@ -24,7 +31,7 @@ export class RestaurantRepository {
   async getById(id: Types.ObjectId): Promise<RestaurantDocument> {
     const restaurant = await this.restaurantModel.findById(id).exec();
     if (!restaurant) {
-      throw new HttpException('Restaurant not found', HttpStatus.NOT_FOUND);
+      throw new NotFoundException('Restaurant not found');
     }
     return restaurant;
   }
@@ -36,15 +43,9 @@ export class RestaurantRepository {
     } catch (error) {
       if (error.code === 11000) {
         // MongoDB duplicate key error code
-        throw new HttpException(
-          'Restaurant name is already in use.',
-          HttpStatus.BAD_REQUEST,
-        );
+        throw new BadRequestException('Restaurant name is already in use.');
       }
-      throw new HttpException(
-        'Internal server error',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new InternalServerErrorException('Failed to create restaurant');
     }
   }
 
@@ -57,21 +58,15 @@ export class RestaurantRepository {
         .findByIdAndUpdate(id, restaurant, { new: true })
         .exec();
       if (!updatedRestaurant) {
-        throw new HttpException('Restaurant not found', HttpStatus.NOT_FOUND);
+        throw new NotFoundException('Restaurant not found');
       }
       return updatedRestaurant;
     } catch (error) {
       if (error.code === 11000) {
         // MongoDB duplicate key error code
-        throw new HttpException(
-          'Restaurant name is already in use.',
-          HttpStatus.BAD_REQUEST,
-        );
+        throw new BadRequestException('Restaurant name is already in use.');
       }
-      throw new HttpException(
-        'Internal server error',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new InternalServerErrorException('Failed to create restaurant');
     }
   }
 
@@ -80,7 +75,7 @@ export class RestaurantRepository {
       .findByIdAndDelete(id)
       .exec();
     if (!deletedRestaurant) {
-      throw new HttpException('Restaurant not found', HttpStatus.NOT_FOUND);
+      throw new NotFoundException('Restaurant not found');
     }
     return deletedRestaurant;
   }

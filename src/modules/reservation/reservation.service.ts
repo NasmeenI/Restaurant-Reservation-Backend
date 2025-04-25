@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { Types } from 'mongoose';
 import {
   CreateReservationRequest,
@@ -54,7 +54,7 @@ export class ReservationService {
   ) : Promise<boolean> {
     const restaurant = await this.restaurantRepository.getById(restaurantId);
     if (!restaurant) {
-      throw new HttpException('Restaurant not found', HttpStatus.NOT_FOUND);
+      throw new NotFoundException('Restaurant not found');
     }
 
     const maxSeats = restaurant.maxSeats;

@@ -6,6 +6,7 @@ import { AppModule } from 'src/modules/app/app.module';
 import hpp from 'hpp';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { applyPartialTypeMetadata } from 'src/common/utils/swagger.utils';
+import { HttpExceptionFilter } from 'src/common/filter/exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,6 +19,7 @@ async function bootstrap() {
       transformOptions: { enableImplicitConversion: true },
     }),
   );
+  app.useGlobalFilters(new HttpExceptionFilter());
   app.use(helmet());
   app.use(hpp());
   app.enableCors({

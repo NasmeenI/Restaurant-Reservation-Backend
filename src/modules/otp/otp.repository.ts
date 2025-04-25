@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import {
@@ -19,20 +25,17 @@ export class OtpVerificationRepository {
 
   async generateOtp(): Promise<Partial<OtpVerificationDocument>> {
     const otp = Math.floor(100000 + Math.random() * 900000).toString(); // Generate a 6-digit OTP
-    const otpVerification : Partial<OtpVerificationDocument> = {
+    const otpVerification: Partial<OtpVerificationDocument> = {
       otp,
       expiredAt: new Date(Date.now() + 5 * 60 * 1000), // Set expiration time to 5 minutes from now
-    }
+    };
     return otpVerification;
   }
 
   async getById(id: Types.ObjectId): Promise<OtpVerificationDocument> {
     const otpVerification = await this.otpVerificationModel.findById(id).exec();
     if (!otpVerification) {
-      throw new HttpException(
-        'OTP Verification not found',
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException('OTP Verification not found');
     }
     return otpVerification;
   }
@@ -42,17 +45,12 @@ export class OtpVerificationRepository {
       .findOne({ userId })
       .exec();
     if (!otpVerifications) {
-      throw new HttpException(
-        'No OTP Verification found for this user',
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException('No OTP Verification found for this user');
     }
     return otpVerifications;
   }
 
-  async create(
-    userId: Types.ObjectId,
-  ): Promise<OtpVerificationDocument> {
+  async create(userId: Types.ObjectId): Promise<OtpVerificationDocument> {
     const otpVerification = await this.generateOtp();
     try {
       const newOtpVerification = new this.otpVerificationModel({
@@ -62,16 +60,13 @@ export class OtpVerificationRepository {
       });
       return await newOtpVerification.save();
     } catch (error) {
-      throw new HttpException(
-        'Internal server error',
-        HttpStatus.INTERNAL_SERVER_ERROR,
+      throw new InternalServerErrorException(
+        'Failed to create OTP Verification',
       );
     }
   }
 
-  async refresh(
-    userId: Types.ObjectId,
-  ): Promise<OtpVerificationDocument> {
+  async refresh(userId: Types.ObjectId): Promise<OtpVerificationDocument> {
     try {
       const existingOtpVerification = await this.getByUserId(userId);
       const newOtp = await this.generateOtp();
@@ -79,17 +74,13 @@ export class OtpVerificationRepository {
         .findByIdAndUpdate(existingOtpVerification._id, newOtp, { new: true })
         .exec();
       if (!updatedOtpVerification) {
-        throw new HttpException(
-          'OTP Verification not found',
-          HttpStatus.NOT_FOUND,
-        );
+        throw new NotFoundException('OTP Verification not found');
       }
       return updatedOtpVerification;
     } catch (error) {
       console.log(error);
-      throw new HttpException(
-        'Internal server error',
-        HttpStatus.INTERNAL_SERVER_ERROR,
+      throw new InternalServerErrorException(
+        'Failed to refresh OTP Verification',
       );
     }
   }
@@ -100,16 +91,12 @@ export class OtpVerificationRepository {
         .findByIdAndDelete(id)
         .exec();
       if (!deletedOtpVerification) {
-        throw new HttpException(
-          'OTP Verification not found',
-          HttpStatus.NOT_FOUND,
-        );
+        throw new NotFoundException('OTP Verification not found');
       }
       return deletedOtpVerification;
     } catch (error) {
-      throw new HttpException(
-        'Internal server error',
-        HttpStatus.INTERNAL_SERVER_ERROR,
+      throw new InternalServerErrorException(
+        'Failed to delete OTP Verification',
       );
     }
   }
