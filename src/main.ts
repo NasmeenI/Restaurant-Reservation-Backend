@@ -32,7 +32,7 @@ async function bootstrap() {
 
   // Swagger setup
   const config = new DocumentBuilder()
-    .setTitle('Restaurant Reservation API')
+    .setTitle('Restaurant Reservation API.')
     .setDescription('Restaurant Reservation API Documentation.')
     .setVersion('1.0')
     .addBearerAuth()
