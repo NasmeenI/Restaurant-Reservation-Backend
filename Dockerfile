@@ -19,7 +19,7 @@ COPY . .
 RUN pnpm run build
 
 # Expose the port the app runs on
-EXPOSE 8081
+EXPOSE 8080
 
 # Start the application in production mode
 CMD ["pnpm", "run", "start:prod"]
